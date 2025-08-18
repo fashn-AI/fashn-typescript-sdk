@@ -7,6 +7,35 @@ import { path } from '../internal/utils/path';
 
 export class Predictions extends APIResource {
   /**
+   * Submit a prediction request for AI-powered fashion processing. Supports multiple
+   * model types including:
+   *
+   * - Virtual try-on (tryon-v1.6)
+   * - Model creation (model-create)
+   * - Model variation (model-variation)
+   * - Model swap (model-swap)
+   * - Background operations (background-remove, background-change)
+   * - Image reframing (reframe)
+   *
+   * All requests use the versioned format with model_name and inputs structure.
+   *
+   * @example
+   * ```ts
+   * const prediction = await client.predictions.create({
+   *   inputs: {
+   *     model_image: 'https://example.com/model.jpg',
+   *     garment_image: 'https://example.com/garment.jpg',
+   *   },
+   *   model_name: 'tryon-v1.6',
+   * });
+   * ```
+   */
+  create(params: PredictionCreateParams, options?: RequestOptions): APIPromise<PredictionCreateResponse> {
+    const { webhook_url, ...body } = params;
+    return this._client.post('/v1/run', { query: { webhook_url }, body, ...options });
+  }
+
+  /**
    * Poll for the status of a specific prediction using its ID. Use this endpoint to
    * track prediction progress and retrieve results.
    *
@@ -26,46 +55,29 @@ export class Predictions extends APIResource {
    *
    * @example
    * ```ts
-   * const prediction = await client.predictions.retrieve(
+   * const response = await client.predictions.status(
    *   '123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1',
    * );
    * ```
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<PredictionRetrieveResponse> {
+  status(id: string, options?: RequestOptions): APIPromise<PredictionStatusResponse> {
     return this._client.get(path`/v1/status/${id}`, options);
-  }
-
-  /**
-   * Submit a prediction request for AI-powered fashion processing. Supports multiple
-   * model types including:
-   *
-   * - Virtual try-on (tryon-v1.6)
-   * - Model creation (model-create)
-   * - Model variation (model-variation)
-   * - Model swap (model-swap)
-   * - Background operations (background-remove, background-change)
-   * - Image reframing (reframe)
-   *
-   * All requests use the versioned format with model_name and inputs structure.
-   *
-   * @example
-   * ```ts
-   * const response = await client.predictions.submit({
-   *   inputs: {
-   *     model_image: 'https://example.com/model.jpg',
-   *     garment_image: 'https://example.com/garment.jpg',
-   *   },
-   *   model_name: 'tryon-v1.6',
-   * });
-   * ```
-   */
-  submit(params: PredictionSubmitParams, options?: RequestOptions): APIPromise<PredictionSubmitResponse> {
-    const { webhook_url, ...body } = params;
-    return this._client.post('/v1/run', { query: { webhook_url }, body, ...options });
   }
 }
 
-export interface PredictionRetrieveResponse {
+export interface PredictionCreateResponse {
+  /**
+   * Unique prediction identifier
+   */
+  id: string;
+
+  /**
+   * Error message if prediction failed to start
+   */
+  error: string | null;
+}
+
+export interface PredictionStatusResponse {
   /**
    * The unique prediction ID
    */
@@ -74,7 +86,7 @@ export interface PredictionRetrieveResponse {
   /**
    * Structured error object with name and message fields
    */
-  error: PredictionRetrieveResponse.Error | null;
+  error: PredictionStatusResponse.Error | null;
 
   /**
    * Current status of the prediction
@@ -87,7 +99,7 @@ export interface PredictionRetrieveResponse {
   output?: Array<string> | Array<string> | null;
 }
 
-export namespace PredictionRetrieveResponse {
+export namespace PredictionStatusResponse {
   /**
    * Structured error object with name and message fields
    */
@@ -171,28 +183,16 @@ export namespace PredictionRetrieveResponse {
   }
 }
 
-export interface PredictionSubmitResponse {
-  /**
-   * Unique prediction identifier
-   */
-  id: string;
+export type PredictionCreateParams =
+  | PredictionCreateParams.TryOnRequest
+  | PredictionCreateParams.ModelCreateRequest
+  | PredictionCreateParams.ModelVariationRequest
+  | PredictionCreateParams.ModelSwapRequest
+  | PredictionCreateParams.ReframeRequest
+  | PredictionCreateParams.BackgroundChangeRequest
+  | PredictionCreateParams.BackgroundRemoveRequest;
 
-  /**
-   * Error message if prediction failed to start
-   */
-  error: string | null;
-}
-
-export type PredictionSubmitParams =
-  | PredictionSubmitParams.TryOnRequest
-  | PredictionSubmitParams.ModelCreateRequest
-  | PredictionSubmitParams.ModelVariationRequest
-  | PredictionSubmitParams.ModelSwapRequest
-  | PredictionSubmitParams.ReframeRequest
-  | PredictionSubmitParams.BackgroundChangeRequest
-  | PredictionSubmitParams.BackgroundRemoveRequest;
-
-export declare namespace PredictionSubmitParams {
+export declare namespace PredictionCreateParams {
   export interface TryOnRequest {
     /**
      * Body param:
@@ -809,8 +809,8 @@ export declare namespace PredictionSubmitParams {
 
 export declare namespace Predictions {
   export {
-    type PredictionRetrieveResponse as PredictionRetrieveResponse,
-    type PredictionSubmitResponse as PredictionSubmitResponse,
-    type PredictionSubmitParams as PredictionSubmitParams,
+    type PredictionCreateResponse as PredictionCreateResponse,
+    type PredictionStatusResponse as PredictionStatusResponse,
+    type PredictionCreateParams as PredictionCreateParams,
   };
 }

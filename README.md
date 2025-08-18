@@ -29,12 +29,12 @@ const client = new Fashn({
   apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted
 });
 
-const response = await client.predictions.submit({
+const prediction = await client.predictions.create({
   inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
   model_name: 'tryon-v1.6',
 });
 
-console.log(response.id);
+console.log(prediction.id);
 ```
 
 ### Request & Response types
@@ -49,11 +49,11 @@ const client = new Fashn({
   apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted
 });
 
-const params: Fashn.PredictionSubmitParams = {
+const params: Fashn.PredictionCreateParams = {
   inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
   model_name: 'tryon-v1.6',
 };
-const response: Fashn.PredictionSubmitResponse = await client.predictions.submit(params);
+const prediction: Fashn.PredictionCreateResponse = await client.predictions.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -66,8 +66,8 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.predictions
-  .submit({
+const prediction = await client.predictions
+  .create({
     inputs: {
       garment_image: 'https://example.com/garment.jpg',
       model_image: 'https://example.com/model.jpg',
@@ -114,7 +114,7 @@ const client = new Fashn({
 });
 
 // Or, configure per-request:
-await client.predictions.submit({ inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' }, model_name: 'tryon-v1.6' }, {
+await client.predictions.create({ inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' }, model_name: 'tryon-v1.6' }, {
   maxRetries: 5,
 });
 ```
@@ -131,7 +131,7 @@ const client = new Fashn({
 });
 
 // Override per-request:
-await client.predictions.submit({ inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' }, model_name: 'tryon-v1.6' }, {
+await client.predictions.create({ inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' }, model_name: 'tryon-v1.6' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -155,7 +155,7 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 const client = new Fashn();
 
 const response = await client.predictions
-  .submit({
+  .create({
     inputs: {
       garment_image: 'https://example.com/garment.jpg',
       model_image: 'https://example.com/model.jpg',
@@ -166,8 +166,8 @@ const response = await client.predictions
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.predictions
-  .submit({
+const { data: prediction, response: raw } = await client.predictions
+  .create({
     inputs: {
       garment_image: 'https://example.com/garment.jpg',
       model_image: 'https://example.com/model.jpg',
@@ -176,7 +176,7 @@ const { data: response, response: raw } = await client.predictions
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response.id);
+console.log(prediction.id);
 ```
 
 ### Logging
@@ -256,7 +256,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.predictions.submit({
+client.predictions.create({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
