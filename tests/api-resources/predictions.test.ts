@@ -7,10 +7,22 @@ const client = new Fashn({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource run', () => {
+describe('resource predictions', () => {
   // Prism tests are disabled
-  test.skip('createPrediction: only required params', async () => {
-    const responsePromise = client.run.createPrediction({
+  test.skip('retrieve', async () => {
+    const responsePromise = client.predictions.retrieve('123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('submit: only required params', async () => {
+    const responsePromise = client.predictions.submit({
       inputs: {
         garment_image: 'https://example.com/garment.jpg',
         model_image: 'https://example.com/model.jpg',
@@ -27,8 +39,8 @@ describe('resource run', () => {
   });
 
   // Prism tests are disabled
-  test.skip('createPrediction: required and optional params', async () => {
-    const response = await client.run.createPrediction({
+  test.skip('submit: required and optional params', async () => {
+    const response = await client.predictions.submit({
       inputs: {
         garment_image: 'https://example.com/garment.jpg',
         model_image: 'https://example.com/model.jpg',

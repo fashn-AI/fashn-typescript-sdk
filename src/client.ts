@@ -16,8 +16,12 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { Run, RunCreatePredictionParams, RunCreatePredictionResponse } from './resources/run';
-import { Status, StatusRetrieveResponse } from './resources/status';
+import {
+  PredictionRetrieveResponse,
+  PredictionSubmitParams,
+  PredictionSubmitResponse,
+  Predictions,
+} from './resources/predictions';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -715,21 +719,18 @@ export class Fashn {
 
   static toFile = Uploads.toFile;
 
-  run: API.Run = new API.Run(this);
-  status: API.Status = new API.Status(this);
+  predictions: API.Predictions = new API.Predictions(this);
 }
 
-Fashn.Run = Run;
-Fashn.Status = Status;
+Fashn.Predictions = Predictions;
 
 export declare namespace Fashn {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
-    Run as Run,
-    type RunCreatePredictionResponse as RunCreatePredictionResponse,
-    type RunCreatePredictionParams as RunCreatePredictionParams,
+    Predictions as Predictions,
+    type PredictionRetrieveResponse as PredictionRetrieveResponse,
+    type PredictionSubmitResponse as PredictionSubmitResponse,
+    type PredictionSubmitParams as PredictionSubmitParams,
   };
-
-  export { Status as Status, type StatusRetrieveResponse as StatusRetrieveResponse };
 }
