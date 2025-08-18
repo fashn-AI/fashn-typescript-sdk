@@ -55,12 +55,12 @@ $ cd fashn-sdk-typescript
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link fashn-sdk
+$ yarn link fashn
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global fashn-sdk
+$ pnpm link -—global fashn
 ```
 
 ## Running tests

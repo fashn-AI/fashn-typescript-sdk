@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Fashn } from 'fashn-sdk';
+import { Fashn } from 'fashn';
 
 const { stringifyQuery } = Fashn.prototype as any;
 

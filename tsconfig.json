@@ -9,8 +9,8 @@
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
-      "fashn-sdk/*": ["src/*"],
-      "fashn-sdk": ["src/index.ts"]
+      "fashn/*": ["src/*"],
+      "fashn": ["src/index.ts"]
     },
     "noEmit": true,
 

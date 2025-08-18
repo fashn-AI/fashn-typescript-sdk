@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^fashn-sdk(/.*)?',
+              regex: '^fashn(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],
