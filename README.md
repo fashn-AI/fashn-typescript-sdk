@@ -26,7 +26,7 @@ The full API of this library can be found in [api.md](api.md).
 import Fashn from 'fashn-sdk';
 
 const client = new Fashn({
-  apiKey: process.env['FASHN_SDK_API_KEY'], // This is the default and can be omitted
+  apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted
 });
 
 const response = await client.run.createPrediction({
@@ -46,7 +46,7 @@ This library includes TypeScript definitions for all request params and response
 import Fashn from 'fashn-sdk';
 
 const client = new Fashn({
-  apiKey: process.env['FASHN_SDK_API_KEY'], // This is the default and can be omitted
+  apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted
 });
 
 const params: Fashn.RunCreatePredictionParams = {

@@ -36,9 +36,9 @@ export interface StatusRetrieveResponse {
   id: string;
 
   /**
-   * Structured error object with name and message fields
+   * Error information if prediction failed, null otherwise
    */
-  error: StatusRetrieveResponse.Error | null;
+  error: StatusRetrieveResponse.UnionMember0 | unknown | null;
 
   /**
    * Current status of the prediction
@@ -48,14 +48,14 @@ export interface StatusRetrieveResponse {
   /**
    * Generated images - format depends on original request's return_base64 setting
    */
-  output?: Array<string> | Array<string> | null;
+  output?: Array<string> | Array<string> | unknown | null;
 }
 
 export namespace StatusRetrieveResponse {
   /**
    * Structured error object with name and message fields
    */
-  export interface Error {
+  export interface UnionMember0 {
     /**
      * Detailed error message explaining the specific failure
      */
