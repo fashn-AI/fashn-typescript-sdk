@@ -127,7 +127,7 @@ export class Fashn {
   /**
    * API Client for interfacing with the Fashn API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['FASHN_SDK_API_KEY'] ?? undefined]
+   * @param {string | undefined} [opts.apiKey=process.env['FASHN_API_KEY'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['FASHN_BASE_URL'] ?? https://api.fashn.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
@@ -138,12 +138,12 @@ export class Fashn {
    */
   constructor({
     baseURL = readEnv('FASHN_BASE_URL'),
-    apiKey = readEnv('FASHN_SDK_API_KEY'),
+    apiKey = readEnv('FASHN_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
       throw new Errors.FashnError(
-        "The FASHN_SDK_API_KEY environment variable is missing or empty; either provide it, or instantiate the Fashn client with an apiKey option, like new Fashn({ apiKey: 'My API Key' }).",
+        "The FASHN_API_KEY environment variable is missing or empty; either provide it, or instantiate the Fashn client with an apiKey option, like new Fashn({ apiKey: 'My API Key' }).",
       );
     }
 

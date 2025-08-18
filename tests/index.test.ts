@@ -413,14 +413,14 @@ describe('instantiate client', () => {
 
   test('with environment variable arguments', () => {
     // set options via env var
-    process.env['FASHN_SDK_API_KEY'] = 'My API Key';
+    process.env['FASHN_API_KEY'] = 'My API Key';
     const client = new Fashn();
     expect(client.apiKey).toBe('My API Key');
   });
 
   test('with overridden environment variable arguments', () => {
     // set options via env var
-    process.env['FASHN_SDK_API_KEY'] = 'another My API Key';
+    process.env['FASHN_API_KEY'] = 'another My API Key';
     const client = new Fashn({ apiKey: 'My API Key' });
     expect(client.apiKey).toBe('My API Key');
   });
