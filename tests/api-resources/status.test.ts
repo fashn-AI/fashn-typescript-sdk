@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import FashnSDK from 'fashn-sdk';
+import Fashn from 'fashn-sdk';
 
-const client = new FashnSDK({
+const client = new Fashn({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
