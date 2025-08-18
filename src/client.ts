@@ -40,7 +40,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['FASHN_SDK_BASE_URL'].
+   * Defaults to process.env['FASHN_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -94,7 +94,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['FASHN_SDK_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['FASHN_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -107,9 +107,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Fashn SDK API.
+ * API Client for interfacing with the Fashn API.
  */
-export class FashnSDK {
+export class Fashn {
   apiKey: string;
 
   baseURL: string;
@@ -125,10 +125,10 @@ export class FashnSDK {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Fashn SDK API.
+   * API Client for interfacing with the Fashn API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['FASHN_SDK_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['FASHN_SDK_BASE_URL'] ?? https://api.fashn.ai] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['FASHN_BASE_URL'] ?? https://api.fashn.ai] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -137,13 +137,13 @@ export class FashnSDK {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('FASHN_SDK_BASE_URL'),
+    baseURL = readEnv('FASHN_BASE_URL'),
     apiKey = readEnv('FASHN_SDK_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
-      throw new Errors.FashnSDKError(
-        "The FASHN_SDK_API_KEY environment variable is missing or empty; either provide it, or instantiate the FashnSDK client with an apiKey option, like new FashnSDK({ apiKey: 'My API Key' }).",
+      throw new Errors.FashnError(
+        "The FASHN_SDK_API_KEY environment variable is missing or empty; either provide it, or instantiate the Fashn client with an apiKey option, like new Fashn({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -154,14 +154,14 @@ export class FashnSDK {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? FashnSDK.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? Fashn.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('FASHN_SDK_LOG'), "process.env['FASHN_SDK_LOG']", this) ??
+      parseLogLevel(readEnv('FASHN_LOG'), "process.env['FASHN_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -224,7 +224,7 @@ export class FashnSDK {
         if (value === null) {
           return `${encodeURIComponent(key)}=`;
         }
-        throw new Errors.FashnSDKError(
+        throw new Errors.FashnError(
           `Cannot stringify type ${typeof value}; Expected string, number, boolean, or null. If you need to pass nested query parameters, you can manually encode them, e.g. { query: { 'foo[key1]': value1, 'foo[key2]': value2 } }, and please open a GitHub issue requesting better support for your use case.`,
         );
       })
@@ -696,10 +696,10 @@ export class FashnSDK {
     }
   }
 
-  static FashnSDK = this;
+  static Fashn = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static FashnSDKError = Errors.FashnSDKError;
+  static FashnError = Errors.FashnError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -719,10 +719,10 @@ export class FashnSDK {
   status: API.Status = new API.Status(this);
 }
 
-FashnSDK.Run = Run;
-FashnSDK.Status = Status;
+Fashn.Run = Run;
+Fashn.Status = Status;
 
-export declare namespace FashnSDK {
+export declare namespace Fashn {
   export type RequestOptions = Opts.RequestOptions;
 
   export {

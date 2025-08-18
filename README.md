@@ -1,8 +1,8 @@
-# Fashn SDK TypeScript API Library
+# Fashn TypeScript API Library
 
 [![NPM version](<https://img.shields.io/npm/v/fashn-sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/fashn-sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/fashn-sdk)
 
-This library provides convenient access to the Fashn SDK REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Fashn REST API from server-side TypeScript or JavaScript.
 
 The REST API documentation can be found on [fashn.ai](https://fashn.ai). The full API of this library can be found in [api.md](api.md).
 
@@ -23,9 +23,9 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import FashnSDK from 'fashn-sdk';
+import Fashn from 'fashn-sdk';
 
-const client = new FashnSDK({
+const client = new Fashn({
   apiKey: process.env['FASHN_SDK_API_KEY'], // This is the default and can be omitted
 });
 
@@ -43,17 +43,17 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import FashnSDK from 'fashn-sdk';
+import Fashn from 'fashn-sdk';
 
-const client = new FashnSDK({
+const client = new Fashn({
   apiKey: process.env['FASHN_SDK_API_KEY'], // This is the default and can be omitted
 });
 
-const params: FashnSDK.RunCreatePredictionParams = {
+const params: Fashn.RunCreatePredictionParams = {
   inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
   model_name: 'tryon-v1.6',
 };
-const response: FashnSDK.RunCreatePredictionResponse = await client.run.createPrediction(params);
+const response: Fashn.RunCreatePredictionResponse = await client.run.createPrediction(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -75,7 +75,7 @@ const response = await client.run
     model_name: 'tryon-v1.6',
   })
   .catch(async (err) => {
-    if (err instanceof FashnSDK.APIError) {
+    if (err instanceof Fashn.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
       console.log(err.headers); // {server: 'nginx', ...}
@@ -109,7 +109,7 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new FashnSDK({
+const client = new Fashn({
   maxRetries: 0, // default is 2
 });
 
@@ -126,7 +126,7 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new FashnSDK({
+const client = new Fashn({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
@@ -152,7 +152,7 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 
 <!-- prettier-ignore -->
 ```ts
-const client = new FashnSDK();
+const client = new Fashn();
 
 const response = await client.run
   .createPrediction({
@@ -189,13 +189,13 @@ console.log(response.id);
 
 The log level can be configured in two ways:
 
-1. Via the `FASHN_SDK_LOG` environment variable
+1. Via the `FASHN_LOG` environment variable
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import FashnSDK from 'fashn-sdk';
+import Fashn from 'fashn-sdk';
 
-const client = new FashnSDK({
+const client = new Fashn({
   logLevel: 'debug', // Show all log messages
 });
 ```
@@ -221,13 +221,13 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import FashnSDK from 'fashn-sdk';
+import Fashn from 'fashn-sdk';
 import pino from 'pino';
 
 const logger = pino();
 
-const client = new FashnSDK({
-  logger: logger.child({ name: 'FashnSDK' }),
+const client = new Fashn({
+  logger: logger.child({ name: 'Fashn' }),
   logLevel: 'debug', // Send all messages to pino, allowing it to filter
 });
 ```
@@ -290,10 +290,10 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import FashnSDK from 'fashn-sdk';
+import Fashn from 'fashn-sdk';
 import fetch from 'my-fetch';
 
-const client = new FashnSDK({ fetch });
+const client = new Fashn({ fetch });
 ```
 
 ### Fetch options
@@ -301,9 +301,9 @@ const client = new FashnSDK({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import FashnSDK from 'fashn-sdk';
+import Fashn from 'fashn-sdk';
 
-const client = new FashnSDK({
+const client = new Fashn({
   fetchOptions: {
     // `RequestInit` options
   },
@@ -318,11 +318,11 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import FashnSDK from 'fashn-sdk';
+import Fashn from 'fashn-sdk';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new FashnSDK({
+const client = new Fashn({
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -332,9 +332,9 @@ const client = new FashnSDK({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import FashnSDK from 'fashn-sdk';
+import Fashn from 'fashn-sdk';
 
-const client = new FashnSDK({
+const client = new Fashn({
   fetchOptions: {
     proxy: 'http://localhost:8888',
   },
@@ -344,10 +344,10 @@ const client = new FashnSDK({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import FashnSDK from 'npm:fashn-sdk';
+import Fashn from 'npm:fashn-sdk';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new FashnSDK({
+const client = new Fashn({
   fetchOptions: {
     client: httpClient,
   },
