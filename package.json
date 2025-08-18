@@ -1,5 +1,5 @@
 {
-  "name": "fashn-sdk",
+  "name": "fashn",
   "version": "0.0.1",
   "description": "The official TypeScript library for the Fashn API",
   "author": "Fashn <>",

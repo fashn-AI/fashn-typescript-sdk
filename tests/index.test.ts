@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'fashn-sdk/core/api-promise';
+import { APIPromise } from 'fashn/core/api-promise';
 
 import util from 'node:util';
-import Fashn from 'fashn-sdk';
-import { APIUserAbortError } from 'fashn-sdk';
+import Fashn from 'fashn';
+import { APIUserAbortError } from 'fashn';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {

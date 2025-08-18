@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'fashn-sdk/internal/uploads';
-import { toFile } from 'fashn-sdk/core/uploads';
+import { multipartFormRequestOptions, createForm } from 'fashn/internal/uploads';
+import { toFile } from 'fashn/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {
