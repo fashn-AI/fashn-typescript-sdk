@@ -1,12 +1,12 @@
 {
   "name": "fashn",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "The official TypeScript library for the Fashn API",
   "author": "Fashn <>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
-  "repository": "github:stainless-sdks/fashn-sdk-typescript",
+  "repository": "github:fashn-AI/fashn-typescript-sdk",
   "license": "Apache-2.0",
   "packageManager": "yarn@1.22.22",
   "files": [
