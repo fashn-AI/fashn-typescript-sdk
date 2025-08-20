@@ -17,8 +17,8 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  PredictionCreateParams,
-  PredictionCreateResponse,
+  PredictionRunParams,
+  PredictionRunResponse,
   PredictionStatusResponse,
   Predictions,
 } from './resources/predictions';
@@ -729,8 +729,8 @@ export declare namespace Fashn {
 
   export {
     Predictions as Predictions,
-    type PredictionCreateResponse as PredictionCreateResponse,
+    type PredictionRunResponse as PredictionRunResponse,
     type PredictionStatusResponse as PredictionStatusResponse,
-    type PredictionCreateParams as PredictionCreateParams,
+    type PredictionRunParams as PredictionRunParams,
   };
 }

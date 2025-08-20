@@ -2,7 +2,7 @@
 
 export {
   Predictions,
-  type PredictionCreateResponse,
+  type PredictionRunResponse,
   type PredictionStatusResponse,
-  type PredictionCreateParams,
+  type PredictionRunParams,
 } from './predictions';

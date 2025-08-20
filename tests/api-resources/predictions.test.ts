@@ -9,8 +9,8 @@ const client = new Fashn({
 
 describe('resource predictions', () => {
   // Prism tests are disabled
-  test.skip('create: only required params', async () => {
-    const responsePromise = client.predictions.create({
+  test.skip('run: only required params', async () => {
+    const responsePromise = client.predictions.run({
       inputs: {
         garment_image: 'https://example.com/garment.jpg',
         model_image: 'https://example.com/model.jpg',
@@ -27,8 +27,8 @@ describe('resource predictions', () => {
   });
 
   // Prism tests are disabled
-  test.skip('create: required and optional params', async () => {
-    const response = await client.predictions.create({
+  test.skip('run: required and optional params', async () => {
+    const response = await client.predictions.run({
       inputs: {
         garment_image: 'https://example.com/garment.jpg',
         model_image: 'https://example.com/model.jpg',

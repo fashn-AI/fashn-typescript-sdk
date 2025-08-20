@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 (2025-08-20)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* **api:** manual updates ([81cf0cc](https://github.com/fashn-AI/fashn-typescript-sdk/commit/81cf0ccd6c73ca523d5cc849634ff8a7b7d824b2))
+* **mcp:** add code execution tool ([50405a9](https://github.com/fashn-AI/fashn-typescript-sdk/commit/50405a99c323cd0c69480fa8f2b542bb82b0c4fd))
+
 ## 0.1.0 (2025-08-19)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.0.1...v0.1.0)

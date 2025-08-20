@@ -21,7 +21,7 @@ export class Predictions extends APIResource {
    *
    * @example
    * ```ts
-   * const prediction = await client.predictions.create({
+   * const response = await client.predictions.run({
    *   inputs: {
    *     model_image: 'https://example.com/model.jpg',
    *     garment_image: 'https://example.com/garment.jpg',
@@ -30,7 +30,7 @@ export class Predictions extends APIResource {
    * });
    * ```
    */
-  create(params: PredictionCreateParams, options?: RequestOptions): APIPromise<PredictionCreateResponse> {
+  run(params: PredictionRunParams, options?: RequestOptions): APIPromise<PredictionRunResponse> {
     const { webhook_url, ...body } = params;
     return this._client.post('/v1/run', { query: { webhook_url }, body, ...options });
   }
@@ -65,7 +65,7 @@ export class Predictions extends APIResource {
   }
 }
 
-export interface PredictionCreateResponse {
+export interface PredictionRunResponse {
   /**
    * Unique prediction identifier
    */
@@ -183,16 +183,16 @@ export namespace PredictionStatusResponse {
   }
 }
 
-export type PredictionCreateParams =
-  | PredictionCreateParams.TryOnRequest
-  | PredictionCreateParams.ModelCreateRequest
-  | PredictionCreateParams.ModelVariationRequest
-  | PredictionCreateParams.ModelSwapRequest
-  | PredictionCreateParams.ReframeRequest
-  | PredictionCreateParams.BackgroundChangeRequest
-  | PredictionCreateParams.BackgroundRemoveRequest;
+export type PredictionRunParams =
+  | PredictionRunParams.TryOnRequest
+  | PredictionRunParams.ModelCreateRequest
+  | PredictionRunParams.ModelVariationRequest
+  | PredictionRunParams.ModelSwapRequest
+  | PredictionRunParams.ReframeRequest
+  | PredictionRunParams.BackgroundChangeRequest
+  | PredictionRunParams.BackgroundRemoveRequest;
 
-export declare namespace PredictionCreateParams {
+export declare namespace PredictionRunParams {
   export interface TryOnRequest {
     /**
      * Body param:
@@ -809,8 +809,8 @@ export declare namespace PredictionCreateParams {
 
 export declare namespace Predictions {
   export {
-    type PredictionCreateResponse as PredictionCreateResponse,
+    type PredictionRunResponse as PredictionRunResponse,
     type PredictionStatusResponse as PredictionStatusResponse,
-    type PredictionCreateParams as PredictionCreateParams,
+    type PredictionRunParams as PredictionRunParams,
   };
 }
