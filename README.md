@@ -11,11 +11,8 @@ It is generated with [Stainless](https://www.stainless.com/).
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:fashn-AI/fashn-typescript-sdk.git
+npm install fashn
 ```
-
-> [!NOTE]
-> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install fashn`
 
 ## Usage
 
@@ -29,12 +26,12 @@ const client = new Fashn({
   apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted
 });
 
-const prediction = await client.predictions.create({
+const response = await client.predictions.run({
   inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
   model_name: 'tryon-v1.6',
 });
 
-console.log(prediction.id);
+console.log(response.id);
 ```
 
 ### Request & Response types
@@ -49,11 +46,11 @@ const client = new Fashn({
   apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted
 });
 
-const params: Fashn.PredictionCreateParams = {
+const params: Fashn.PredictionRunParams = {
   inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
   model_name: 'tryon-v1.6',
 };
-const prediction: Fashn.PredictionCreateResponse = await client.predictions.create(params);
+const response: Fashn.PredictionRunResponse = await client.predictions.run(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -66,8 +63,8 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const prediction = await client.predictions
-  .create({
+const response = await client.predictions
+  .run({
     inputs: {
       garment_image: 'https://example.com/garment.jpg',
       model_image: 'https://example.com/model.jpg',
@@ -114,7 +111,7 @@ const client = new Fashn({
 });
 
 // Or, configure per-request:
-await client.predictions.create({ inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' }, model_name: 'tryon-v1.6' }, {
+await client.predictions.run({ inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' }, model_name: 'tryon-v1.6' }, {
   maxRetries: 5,
 });
 ```
@@ -131,7 +128,7 @@ const client = new Fashn({
 });
 
 // Override per-request:
-await client.predictions.create({ inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' }, model_name: 'tryon-v1.6' }, {
+await client.predictions.run({ inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' }, model_name: 'tryon-v1.6' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -155,7 +152,7 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 const client = new Fashn();
 
 const response = await client.predictions
-  .create({
+  .run({
     inputs: {
       garment_image: 'https://example.com/garment.jpg',
       model_image: 'https://example.com/model.jpg',
@@ -166,8 +163,8 @@ const response = await client.predictions
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: prediction, response: raw } = await client.predictions
-  .create({
+const { data: response, response: raw } = await client.predictions
+  .run({
     inputs: {
       garment_image: 'https://example.com/garment.jpg',
       model_image: 'https://example.com/model.jpg',
@@ -176,7 +173,7 @@ const { data: prediction, response: raw } = await client.predictions
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(prediction.id);
+console.log(response.id);
 ```
 
 ### Logging
@@ -256,7 +253,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.predictions.create({
+client.predictions.run({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
