@@ -64,6 +64,7 @@ const params: Fashn.PredictionSubscribeParams = {
   },
   model_name: 'tryon-v1.6',
 };
+
 const response: Fashn.PredictionSubscribeResponse = await client.predictions.subscribe(params);
 ```
 
