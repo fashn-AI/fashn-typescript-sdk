@@ -5,6 +5,4 @@ export {
   type PredictionRunResponse,
   type PredictionStatusResponse,
   type PredictionRunParams,
-  type PredictionSubscribeParams,
-  type PredictionSubscribeResponse,
 } from './predictions';
