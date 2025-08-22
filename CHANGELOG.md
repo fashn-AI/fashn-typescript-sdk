@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.1 (2025-08-22)
+
+Full Changelog: [v0.2.0...v0.2.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.2.0...v0.2.1)
+
+### Chores
+
+* add package to package.json ([5fb67a3](https://github.com/fashn-AI/fashn-typescript-sdk/commit/5fb67a3b2b1377e45825dcf6099bb76f82910350))
+* **client:** qualify global Blob ([ad919d3](https://github.com/fashn-AI/fashn-typescript-sdk/commit/ad919d3086be01578cb5da6283da4e3b68e7108e))
+
+
+### Documentation
+
+* add logo and docs/instructions ([acdcac7](https://github.com/fashn-AI/fashn-typescript-sdk/commit/acdcac7ef00ce7d804bc241025240ae0e494e846))
+
 ## 0.2.0 (2025-08-20)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.1.0...v0.2.0)
