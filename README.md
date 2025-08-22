@@ -1,12 +1,20 @@
-# Fashn TypeScript API Library
+# FASHN TypeScript SDK
 
-[![NPM version](<https://img.shields.io/npm/v/fashn.svg?label=npm%20(stable)>)](https://npmjs.org/package/fashn) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/fashn)
+[![NPM version](<https://img.shields.io/npm/v/fashn.svg?label=npm%20(beta)>)](https://npmjs.org/package/fashn) 
+<!-- ![npm bundle size](https://img.shields.io/bundlephobia/minzip/fashn) -->
+
+![FASHN AI Try-On App](https://cilsrdpvqtgutxprdofn.supabase.co/storage/v1/object/public/assets/logo-enhanced_60x60.png)
 
 This library provides convenient access to the Fashn REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [docs.fashn.ai](https://docs.fashn.ai). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.fashn.ai](https://docs.fashn.ai) with a [playground](https://docs.fashn.ai/playground).
 
-It is generated with [Stainless](https://www.stainless.com/).
+### API Key
+To use this SDK, you need to have an API key from a FASHN account.
+
+Don't have an account yet? [Create an account](https://app.fashn.ai/?utm_source=nextjs-tryon-app&utm_medium=readme&utm_campaign=signup)
+If you already have an account, go to Developer API → API Keys → `+ Create new API key`
+
 
 ## Installation
 
