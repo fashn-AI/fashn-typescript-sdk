@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1 (2025-08-22)
+
+Full Changelog: [v0.4.0...v0.4.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.4.0...v0.4.1)
+
+### Chores
+
+* sync repo ([8ab235a](https://github.com/fashn-AI/fashn-typescript-sdk/commit/8ab235ae8e5b8af37cb967d77cc79d62194fffa9))
+
 ## 0.4.0 (2025-08-22)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.3.0...v0.4.0)
