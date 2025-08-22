@@ -1,18 +1,5 @@
 # Changelog
 
-## 0.5.0 (2025-08-22)
-
-Full Changelog: [v0.4.0...v0.5.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.4.0...v0.5.0)
-
-### Features
-
-* **predictions:** introduce PredictionSubscribeParams and PredictionSubscribeResponse types ([ddfbf81](https://github.com/fashn-AI/fashn-typescript-sdk/commit/ddfbf81eaa7d38aa71b26b002f7a9f4718267541))
-
-
-### Documentation
-
-* **readme:** update README to use subscribe examples ([f27f014](https://github.com/fashn-AI/fashn-typescript-sdk/commit/f27f0144440392c28c61be279b8ffa10d10cc799))
-
 ## 0.4.0 (2025-08-22)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.3.0...v0.4.0)
