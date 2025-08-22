@@ -90,10 +90,7 @@ export class Predictions extends APIResource {
    * });
    * ```
    */
-  async subscribe(
-    body: PredictionSubscribeParams,
-    options?: RequestOptions,
-  ): Promise<PredictionSubscribeResponse> {
+  async subscribe(body: RunSubscribeParams, options?: RequestOptions): Promise<PredictionStatusResponse> {
     const response = await this._client.predictions.run(body, options);
 
     if (body.onEnqueued) body.onEnqueued(response.id);
@@ -103,9 +100,9 @@ export class Predictions extends APIResource {
 
   private subscribeToStatus(
     id: string,
-    body: PredictionSubscribeParams,
+    body: RunSubscribeParams,
     options?: RequestOptions,
-  ): Promise<PredictionSubscribeResponse> {
+  ): Promise<PredictionStatusResponse> {
     return new Promise((resolve, reject) => {
       const pollInterval = body.pollInterval ?? DEFAULT_POLL_INTERVAL;
       const timeout = body.timeout ?? DEFAULT_TIMEOUT;
@@ -896,7 +893,7 @@ export declare namespace PredictionRunParams {
   }
 }
 
-export type PredictionSubscribeParams = PredictionRunParams & {
+export type RunSubscribeParams = PredictionRunParams & {
   /**
    * The interval in milliseconds to poll the status of the prediction.
    */
@@ -918,14 +915,10 @@ export type PredictionSubscribeParams = PredictionRunParams & {
   onQueueUpdate?: (status: PredictionStatusResponse) => void;
 };
 
-export type PredictionSubscribeResponse = PredictionStatusResponse;
-
 export declare namespace Predictions {
   export {
     type PredictionRunResponse as PredictionRunResponse,
     type PredictionStatusResponse as PredictionStatusResponse,
     type PredictionRunParams as PredictionRunParams,
-    type PredictionSubscribeParams as PredictionSubscribeParams,
-    type PredictionSubscribeResponse as PredictionSubscribeResponse,
   };
 }
