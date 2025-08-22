@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 (2025-08-22)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* **predictions:** add subscribe method for predition + polling ([e10a8d2](https://github.com/fashn-AI/fashn-typescript-sdk/commit/e10a8d261e7913172d541dd50f7da10d4c4aed87))
+
 ## 0.3.0 (2025-08-22)
 
 Full Changelog: [v0.2.1...v0.3.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.2.1...v0.3.0)
