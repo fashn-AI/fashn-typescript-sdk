@@ -90,7 +90,10 @@ export class Predictions extends APIResource {
    * });
    * ```
    */
-  async subscribe(body: RunSubscribeParams, options?: RequestOptions): Promise<PredictionStatusResponse> {
+  async subscribe(
+    body: PredictionSubscribeParams,
+    options?: RequestOptions,
+  ): Promise<PredictionStatusResponse> {
     const response = await this._client.predictions.run(body, options);
 
     if (body.onEnqueued) body.onEnqueued(response.id);
@@ -100,7 +103,7 @@ export class Predictions extends APIResource {
 
   private subscribeToStatus(
     id: string,
-    body: RunSubscribeParams,
+    body: PredictionSubscribeParams,
     options?: RequestOptions,
   ): Promise<PredictionStatusResponse> {
     return new Promise((resolve, reject) => {
@@ -893,7 +896,7 @@ export declare namespace PredictionRunParams {
   }
 }
 
-export type RunSubscribeParams = PredictionRunParams & {
+export type PredictionSubscribeParams = PredictionRunParams & {
   /**
    * The interval in milliseconds to poll the status of the prediction.
    */
