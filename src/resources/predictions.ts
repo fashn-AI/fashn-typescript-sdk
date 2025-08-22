@@ -4,6 +4,10 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
+import { APIConnectionTimeoutError } from '../core/error';
+
+const DEFAULT_POLL_INTERVAL = 1000;
+const DEFAULT_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 
 export class Predictions extends APIResource {
   /**
@@ -62,6 +66,88 @@ export class Predictions extends APIResource {
    */
   status(id: string, options?: RequestOptions): APIPromise<PredictionStatusResponse> {
     return this._client.get(path`/v1/status/${id}`, options);
+  }
+
+  /**
+   * Submit a prediction request and automatically poll for completion. Combines
+   * the `run` and `status` endpoints into a single call with real-time progress
+   * updates via callbacks.
+   *
+   * Polls every 1 second by default with a 5-minute timeout. Automatically stops
+   * polling when prediction reaches a terminal state (`completed`, `failed`, etc.).
+   *
+   * @example
+   * ```ts
+   *
+   * const result = await client.predictions.subscribe({
+   *   inputs: {
+   *     model_image: 'https://example.com/model.jpg',
+   *     garment_image: 'https://example.com/garment.jpg',
+   *   },
+   *   model_name: 'tryon-v1.6',
+   *   onEnqueued: (requestId) => console.log('Started:', requestId),
+   *   onQueueUpdate: (status) => console.log('Status:', status.status),
+   * });
+   * ```
+   */
+  async subscribe(body: RunSubscribeParams, options?: RequestOptions): Promise<PredictionStatusResponse> {
+    const response = await this._client.predictions.run(body, options);
+
+    if (body.onEnqueued) body.onEnqueued(response.id);
+
+    return this.subscribeToStatus(response.id, body, options);
+  }
+
+  private subscribeToStatus(
+    id: string,
+    body: RunSubscribeParams,
+    options?: RequestOptions,
+  ): Promise<PredictionStatusResponse> {
+    return new Promise((resolve, reject) => {
+      const pollInterval = body.pollInterval ?? DEFAULT_POLL_INTERVAL;
+      const timeout = body.timeout ?? DEFAULT_TIMEOUT;
+
+      let pollIntervalId: NodeJS.Timeout;
+      let timeoutId: NodeJS.Timeout;
+
+      const clearScheduledTasks = () => {
+        if (timeoutId) clearTimeout(timeoutId);
+        if (pollIntervalId) clearTimeout(pollIntervalId);
+      };
+
+      if (timeout) {
+        timeoutId = setTimeout(() => {
+          clearScheduledTasks();
+          // TODO: Cancel prediction on server when cancellation API is available
+          reject(new APIConnectionTimeoutError({ message: 'Timeout' }));
+        }, timeout);
+      }
+
+      const pool = async () => {
+        try {
+          const status = await this._client.predictions.status(id, options);
+          if (body.onQueueUpdate) {
+            body.onQueueUpdate(status);
+          }
+
+          if (
+            status.status !== 'starting' &&
+            status.status !== 'in_queue' &&
+            status.status !== 'processing'
+          ) {
+            clearScheduledTasks();
+            return resolve(status);
+          }
+
+          pollIntervalId = setTimeout(pool, pollInterval);
+        } catch (error) {
+          clearScheduledTasks();
+          reject(error);
+        }
+      };
+
+      pool().catch(reject);
+    });
   }
 }
 
@@ -806,6 +892,28 @@ export declare namespace PredictionRunParams {
     }
   }
 }
+
+export type RunSubscribeParams = PredictionRunParams & {
+  /**
+   * The interval in milliseconds to poll the status of the prediction.
+   */
+  pollInterval?: number;
+
+  /**
+   * The timeout in milliseconds to cancel the prediction.
+   */
+  timeout?: number;
+
+  /**
+   * A callback function that is called when the prediction is enqueued.
+   */
+  onEnqueued?: (requestId: string) => void;
+
+  /**
+   * A callback function that is called when the prediction is updated.
+   */
+  onQueueUpdate?: (status: PredictionStatusResponse) => void;
+};
 
 export declare namespace Predictions {
   export {
