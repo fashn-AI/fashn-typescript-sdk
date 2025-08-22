@@ -918,7 +918,7 @@ export type PredictionSubscribeParams = PredictionRunParams & {
   onQueueUpdate?: (status: PredictionStatusResponse) => void;
 };
 
-export type PredictionSubscribeResponse = PredictionStatusResponse;
+export interface PredictionSubscribeResponse extends PredictionStatusResponse {}
 
 export declare namespace Predictions {
   export {
