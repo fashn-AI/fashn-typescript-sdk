@@ -4,14 +4,9 @@
 
 Full Changelog: [v0.4.0...v0.4.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.4.0...v0.4.1)
 
-### Bug Fixes
-
-* **predictions:** fix subscribe response type ([2614a5c](https://github.com/fashn-AI/fashn-typescript-sdk/commit/2614a5c652a22229640851e53193411e7d954b69))
-
-
 ### Chores
 
-* sync repo ([8f95ec0](https://github.com/fashn-AI/fashn-typescript-sdk/commit/8f95ec00855e8074d98116f9c2d8b23adcd0eed1))
+* sync repo ([9bc063c](https://github.com/fashn-AI/fashn-typescript-sdk/commit/9bc063c4fd3996b872741b4dbe8cca011a8f1582))
 
 ## 0.4.0 (2025-08-22)
 
