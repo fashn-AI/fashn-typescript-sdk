@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.1 (2025-08-23)
+
+Full Changelog: [v0.5.0...v0.5.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.5.0...v0.5.1)
+
+### Documentation
+
+* **readme:** use subscribe examples on readme ([66db54b](https://github.com/fashn-AI/fashn-typescript-sdk/commit/66db54b40e9ba263da73d511199dfbaf13329bd1))
+
 ## 0.5.0 (2025-08-23)
 
 Full Changelog: [v0.4.3...v0.5.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.4.3...v0.5.0)
