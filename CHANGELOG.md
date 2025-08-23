@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.3 (2025-08-23)
+
+Full Changelog: [v0.4.2...v0.4.3](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.4.2...v0.4.3)
+
+### Documentation
+
+* **readme:** testing CI/CD ([8848880](https://github.com/fashn-AI/fashn-typescript-sdk/commit/8848880530436aa184dc694e383f0d14327699c0))
+
 ## 0.4.2 (2025-08-22)
 
 Full Changelog: [v0.4.1...v0.4.2](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.4.1...v0.4.2)

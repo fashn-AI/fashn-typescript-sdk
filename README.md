@@ -58,7 +58,7 @@ const params: Fashn.PredictionRunParams = {
   inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
   model_name: 'tryon-v1.6',
 };
-const response: Fashn.PredictionRunResponse = await client.predictions.run(params);
+const response: Fashn.PredictionRunResponse = await client.predictions.run(params); 
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
