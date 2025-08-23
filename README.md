@@ -34,12 +34,15 @@ const client = new Fashn({
   apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted
 });
 
-const response = await client.predictions.run({
-  inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
+const response = await client.predictions.subscribe({
+  inputs: {
+    garment_image: 'https://example.com/garment.jpg',
+    model_image: 'https://example.com/model.jpg',
+  },
   model_name: 'tryon-v1.6',
 });
 
-console.log(response.id);
+console.log(response.output);
 ```
 
 ### Request & Response types
@@ -54,11 +57,14 @@ const client = new Fashn({
   apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted
 });
 
-const params: Fashn.PredictionRunParams = {
-  inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
+const params: Fashn.PredictionSubscribeParams = {
+  inputs: {
+    garment_image: 'https://example.com/garment.jpg',
+    model_image: 'https://example.com/model.jpg',
+  },
   model_name: 'tryon-v1.6',
 };
-const response: Fashn.PredictionRunResponse = await client.predictions.run(params); 
+const response: Fashn.PredictionSubscribeResponse = await client.predictions.subscribe(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -72,7 +78,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 const response = await client.predictions
-  .run({
+  .subscribe({
     inputs: {
       garment_image: 'https://example.com/garment.jpg',
       model_image: 'https://example.com/model.jpg',
