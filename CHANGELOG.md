@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5.0 (2025-08-23)
+
+Full Changelog: [v0.4.3...v0.5.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.4.3...v0.5.0)
+
+### Features
+
+* **prediction:** Subscribe types ([daadd59](https://github.com/fashn-AI/fashn-typescript-sdk/commit/daadd59e5fc056d920bdac9f008e04cdc18adbab))
+
+
+### Bug Fixes
+
+* **prediction:** subscription type name ([f30b220](https://github.com/fashn-AI/fashn-typescript-sdk/commit/f30b220f388ae92ff7bf78e8f33ff0c0f7b681ac))
+
 ## 0.4.3 (2025-08-23)
 
 Full Changelog: [v0.4.2...v0.4.3](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.4.2...v0.4.3)
