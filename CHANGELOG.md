@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.5.2 (2025-08-25)
+
+Full Changelog: [v0.5.1...v0.5.2](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.5.1...v0.5.2)
+
+### Chores
+
+* **internal:** codegen related update ([18cf9ab](https://github.com/fashn-AI/fashn-typescript-sdk/commit/18cf9abfd2de5577bb77d1e905eea203f4a41d2a))
+* update CI script ([2cd5673](https://github.com/fashn-AI/fashn-typescript-sdk/commit/2cd567390ee66b719f7b5be7831de459aff514bc))
+
+
+### Documentation
+
+* **readme:** fix company name ([91bfa9b](https://github.com/fashn-AI/fashn-typescript-sdk/commit/91bfa9b54eaa854f9f3c17a05ab28e3505512d3e))
+
 ## 0.5.1 (2025-08-23)
 
 Full Changelog: [v0.5.0...v0.5.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.5.0...v0.5.1)
