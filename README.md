@@ -5,7 +5,7 @@
 
 ![FASHN AI Try-On App](https://cilsrdpvqtgutxprdofn.supabase.co/storage/v1/object/public/assets/logo-enhanced_60x60.png)
 
-This library provides convenient access to the Fashn REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the FASHN REST API from server-side TypeScript or JavaScript.
 
 The REST API documentation can be found on [docs.fashn.ai](https://docs.fashn.ai) with a [playground](https://docs.fashn.ai/playground).
 
