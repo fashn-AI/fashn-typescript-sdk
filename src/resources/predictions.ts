@@ -74,7 +74,16 @@ export class Predictions extends APIResource {
    * updates via callbacks.
    *
    * Polls every 1 second by default with a 5-minute timeout. Automatically stops
-   * polling when prediction reaches a terminal state (`completed`, `failed`, etc.).
+   * polling when prediction reaches a terminal state and returns the final result.
+   *
+   * **Returned Status Values:**
+   * - `completed` - Generation finished successfully, output available
+   * - `failed` - Generation failed, check error details
+   * - `canceled` - Prediction was canceled
+   * - `time_out` - Prediction timed out
+   *
+   * Note: `starting`, `in_queue`, and `processing` statuses are only available
+   * via the `onQueueUpdate` callback during polling, never in the final response.
    *
    * @example
    * ```ts
@@ -88,6 +97,7 @@ export class Predictions extends APIResource {
    *   onEnqueued: (requestId) => console.log('Started:', requestId),
    *   onQueueUpdate: (status) => console.log('Status:', status.status),
    * });
+   * // result.status will be one of: 'completed', 'failed', 'canceled', 'time_out'
    * ```
    */
   async subscribe(
@@ -139,7 +149,7 @@ export class Predictions extends APIResource {
             status.status !== 'processing'
           ) {
             clearScheduledTasks();
-            return resolve(status);
+            return resolve(status as PredictionSubscribeResponse);
           }
 
           pollIntervalId = setTimeout(pool, pollInterval);
@@ -918,7 +928,12 @@ export type PredictionSubscribeParams = PredictionRunParams & {
   onQueueUpdate?: (status: PredictionStatusResponse) => void;
 };
 
-export interface PredictionSubscribeResponse extends PredictionStatusResponse {}
+export interface PredictionSubscribeResponse extends Omit<PredictionStatusResponse, 'status'> {
+  /**
+   * Current status of the prediction - only terminal states since subscribe() waits for completion
+   */
+  status: 'completed' | 'failed' | 'canceled' | 'time_out';
+}
 
 export declare namespace Predictions {
   export {

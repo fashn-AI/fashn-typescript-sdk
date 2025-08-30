@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5.3 (2025-08-30)
+
+Full Changelog: [v0.5.2...v0.5.3](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.5.2...v0.5.3)
+
+### Bug Fixes
+
+* **subscribe:** subscribe should not return all /status status types ([154b6e6](https://github.com/fashn-AI/fashn-typescript-sdk/commit/154b6e6a015bd3f3a2286d69764a0386dfd8576a))
+
+
+### Chores
+
+* **internal:** update global Error reference ([2d7c9f4](https://github.com/fashn-AI/fashn-typescript-sdk/commit/2d7c9f4417f7c0de9944f19ac925ccf17f4daa6c))
+
 ## 0.5.2 (2025-08-25)
 
 Full Changelog: [v0.5.1...v0.5.2](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.5.1...v0.5.2)
