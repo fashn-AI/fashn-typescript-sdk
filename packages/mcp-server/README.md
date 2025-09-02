@@ -212,6 +212,7 @@ The following tools are available in this MCP server.
   - Model creation (model-create)
   - Model variation (model-variation)
   - Model swap (model-swap)
+  - Product to model (product-to-model)
   - Background operations (background-remove, background-change)
   - Image reframing (reframe)
 
