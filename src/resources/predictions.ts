@@ -14,6 +14,7 @@ export class Predictions extends APIResource {
    * - Model creation (model-create)
    * - Model variation (model-variation)
    * - Model swap (model-swap)
+   * - Product to model (product-to-model)
    * - Background operations (background-remove, background-change)
    * - Image reframing (reframe)
    *
@@ -114,15 +115,22 @@ export namespace PredictionStatusResponse {
      *
      * **ImageLoadError** - Unable to load image from provided inputs
      *
-     * - _Cause_: Pipeline cannot load model/garment/reference image
+     * - _Cause_: Pipeline cannot load product image, model image, garment image, or
+     *   reference image
      * - _Solution_: For URLs - ensure public accessibility and correct Content-Type
      *   headers. For Base64 - include proper data:image/format;base64 prefix
      *
-     * **ContentModerationError** - Prohibited content detected (try-on models only)
+     * **ContentModerationError** - Prohibited content detected
      *
-     * - _Cause_: Content moderation flagged garment image
-     * - _Solution_: Adjust moderation_level to 'permissive' or 'none' if appropriate
-     *   for your use case
+     * - _Cause_: Content moderation flagged product, garment, or model image. More
+     *   sensitive when model_image contains an actual person (virtual try-on mode)
+     * - _Solution_: For try-on models - adjust moderation_level to 'permissive' or
+     *   'none' if appropriate. For product-to-model - explicit or inappropriate
+     *   imagery is prohibited, particularly with real people. For intimate apparel
+     *   (lingerie/swimwear), use FASHN Virtual Try-On endpoint with full moderation
+     *   control. Product generation without model_image operates under more permissive
+     *   policies. Contact support@fashn.ai with prediction ID if content was
+     *   incorrectly flagged
      *
      * **PoseError** - Unable to detect body pose (try-on models only)
      *
@@ -153,6 +161,8 @@ export namespace PredictionStatusResponse {
      * - _Cause_: External service restrictions (content/prompt limitations)
      * - _Model-specific solutions_:
      *   - _Try-on_: Modify image inputs for captioning restrictions
+     *   - _Product-to-model_: Try modifying image inputs, most likely caused by
+     *     content restrictions in image captioning
      *   - _Model-swap_: Try different inputs or disable prompt enhancement
      *   - _Background-change_: Modify image inputs or background prompt
      *   - _Reframe_: Try different image inputs for captioning restrictions
@@ -185,6 +195,7 @@ export namespace PredictionStatusResponse {
 
 export type PredictionRunParams =
   | PredictionRunParams.TryOnRequest
+  | PredictionRunParams.ProductToModelRequest
   | PredictionRunParams.ModelCreateRequest
   | PredictionRunParams.ModelVariationRequest
   | PredictionRunParams.ModelSwapRequest
@@ -312,6 +323,94 @@ export declare namespace PredictionRunParams {
        * `false` if original garments are not removed properly.
        */
       segmentation_free?: boolean;
+    }
+  }
+
+  export interface ProductToModelRequest {
+    /**
+     * Body param:
+     */
+    inputs: ProductToModelRequest.Inputs;
+
+    /**
+     * Body param: Product to Model endpoint transforms product images into people
+     * wearing those products. It supports dual-mode operation: standard
+     * product-to-model (generates new person) and try-on mode (adds product to
+     * existing person)
+     */
+    model_name: 'product-to-model';
+
+    /**
+     * Query param: Optional webhook URL to receive completion notifications
+     */
+    webhook_url?: string;
+  }
+
+  export namespace ProductToModelRequest {
+    export interface Inputs {
+      /**
+       * URL or base64 encoded image of the product to be worn. Supports clothing,
+       * accessories, shoes, and other wearable fashion items. Base64 images must include
+       * the proper prefix (e.g., data:image/jpg;base64,<YOUR_BASE64>)
+       */
+      product_image: string;
+
+      /**
+       * Desired aspect ratio for the output image. Only applies when `model_image` is
+       * not provided (standard product-to-model mode).
+       *
+       * When `model_image` is provided (try-on mode), this parameter is ignored and the
+       * output will match the `model_image`'s aspect ratio.
+       *
+       * **Default:** product_image's aspect ratio (standard mode only)
+       */
+      aspect_ratio?: '1:1' | '2:3' | '3:4' | '4:5' | '5:4' | '4:3' | '3:2' | '16:9' | '9:16';
+
+      /**
+       * URL or base64 encoded image of the person to wear the product. When provided,
+       * enables try-on mode. When omitted, generates a new person wearing the product.
+       * Base64 images must include the proper prefix (e.g.,
+       * data:image/jpg;base64,<YOUR_BASE64>)
+       */
+      model_image?: string;
+
+      /**
+       * Specifies the desired output image format.
+       *
+       * - `png`: Delivers the highest quality image, ideal for use cases such as content
+       *   creation where quality is paramount.
+       * - `jpeg`: Provides a faster response with a slightly compressed image, more
+       *   suitable for real-time applications.
+       */
+      output_format?: 'png' | 'jpeg';
+
+      /**
+       * Additional instructions for person appearance (when `model_image` is not
+       * provided), styling preferences, or background.
+       *
+       * **Examples:** "man with tattoos", "tucked-in", "open jacket", "rolled-up
+       * sleeves", "studio background", "professional office setting"
+       *
+       * **Default:** None
+       */
+      prompt?: string;
+
+      /**
+       * When set to `true`, the API will return the generated image as a base64-encoded
+       * string instead of a CDN URL. The base64 string will be prefixed
+       * `data:image/png;base64,....`
+       *
+       * This option offers enhanced privacy as user-generated outputs are not stored on
+       * our servers when `return_base64` is enabled.
+       */
+      return_base64?: boolean;
+
+      /**
+       * Seed for reproducible results. Use the same seed to reproduce results with the
+       * same inputs, or different seed to force different results. Must be between 0 and
+       * 2^32-1.
+       */
+      seed?: number;
     }
   }
 
@@ -678,12 +777,15 @@ export declare namespace PredictionRunParams {
        * | ------------ | ----------- | ----------------------------- |
        * | 1:1          | 1024 × 1024 | Square format, social media   |
        * | 2:3          | 832 × 1248  | Portrait, fashion photography |
+       * | 3:2          | 1248 × 832  | Standard landscape            |
        * | 3:4          | 880 × 1176  | Standard portrait             |
-       * | 4:5          | 912 × 1144  | Instagram portrait            |
-       * | 9:16         | 760 × 1360  | Vertical video format         |
        * | 4:3          | 1176 × 880  | Traditional landscape         |
+       * | 4:5          | 912 × 1144  | Instagram portrait            |
+       * | 5:4          | 1144 × 912  | Instagram landscape           |
+       * | 9:16         | 760 × 1360  | Vertical video format         |
+       * | 16:9         | 1360 × 760  | Horizontal video format       |
        */
-      target_aspect_ratio?: '1:1' | '2:3' | '3:4' | '4:5' | '5:4' | '4:3' | '3:2' | '16:9' | '9:16';
+      target_aspect_ratio?: '1:1' | '2:3' | '3:2' | '3:4' | '4:3' | '4:5' | '5:4' | '9:16' | '16:9';
 
       /**
        * Direction of image extension when using mode: 'direction'. This parameter is
