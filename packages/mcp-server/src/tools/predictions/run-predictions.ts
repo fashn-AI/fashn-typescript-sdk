@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'run_predictions',
   description:
-    'Submit a prediction request for AI-powered fashion processing. Supports multiple model types including:\n- Virtual try-on (tryon-v1.6)\n- Model creation (model-create)\n- Model variation (model-variation)\n- Model swap (model-swap)\n- Background operations (background-remove, background-change)\n- Image reframing (reframe)\n\nAll requests use the versioned format with model_name and inputs structure.\n',
+    'Submit a prediction request for AI-powered fashion processing. Supports multiple model types including:\n- Virtual try-on (tryon-v1.6)\n- Model creation (model-create)\n- Model variation (model-variation)\n- Model swap (model-swap)\n- Product to model (product-to-model)\n- Background operations (background-remove, background-change)\n- Image reframing (reframe)\n\nAll requests use the versioned format with model_name and inputs structure.\n',
   inputSchema: {
     type: 'object',
     anyOf: [
@@ -95,6 +95,65 @@ export const tool: Tool = {
             description:
               'Virtual Try-On v1.6 enables realistic garment visualization using just a single photo of a person and a garment',
             enum: ['tryon-v1.6'],
+          },
+          webhook_url: {
+            type: 'string',
+            description: 'Optional webhook URL to receive completion notifications',
+          },
+        },
+        required: ['inputs', 'model_name'],
+      },
+      {
+        type: 'object',
+        properties: {
+          inputs: {
+            type: 'object',
+            properties: {
+              product_image: {
+                type: 'string',
+                description:
+                  'URL or base64 encoded image of the product to be worn. Supports clothing, accessories, shoes, and other wearable fashion items. Base64 images must include the proper prefix (e.g., data:image/jpg;base64,<YOUR_BASE64>)',
+              },
+              aspect_ratio: {
+                type: 'string',
+                description:
+                  "Desired aspect ratio for the output image. Only applies when `model_image` is not provided (standard product-to-model mode).\n\nWhen `model_image` is provided (try-on mode), this parameter is ignored and the output will match the `model_image`'s aspect ratio.\n            \n**Default:** product_image's aspect ratio (standard mode only)",
+                enum: ['1:1', '2:3', '3:4', '4:5', '5:4', '4:3', '3:2', '16:9', '9:16'],
+              },
+              model_image: {
+                type: 'string',
+                description:
+                  'URL or base64 encoded image of the person to wear the product. When provided, enables try-on mode. When omitted, generates a new person wearing the product. Base64 images must include the proper prefix (e.g., data:image/jpg;base64,<YOUR_BASE64>)\n',
+              },
+              output_format: {
+                type: 'string',
+                description:
+                  'Specifies the desired output image format.\n- `png`: Delivers the highest quality image, ideal for use cases such as content creation where quality is paramount.\n- `jpeg`: Provides a faster response with a slightly compressed image, more suitable for real-time applications.',
+                enum: ['png', 'jpeg'],
+              },
+              prompt: {
+                type: 'string',
+                description:
+                  'Additional instructions for person appearance (when `model_image` is not provided), styling preferences, or background.\n\n**Examples:** "man with tattoos", "tucked-in", "open jacket", "rolled-up sleeves", "studio background", "professional office setting"\n\n**Default:** None\n',
+              },
+              return_base64: {
+                type: 'boolean',
+                description:
+                  'When set to `true`, the API will return the generated image as a base64-encoded string instead of a CDN URL. The base64 string will be prefixed `data:image/png;base64,....`\n\nThis option offers enhanced privacy as user-generated outputs are not stored on our servers when `return_base64` is enabled.\n',
+              },
+              seed: {
+                type: 'integer',
+                description:
+                  'Seed for reproducible results. Use the same seed to reproduce results with the same inputs, or different seed to force different results. Must be between 0 and 2^32-1.',
+              },
+            },
+            required: ['product_image'],
+          },
+          model_name: {
+            type: 'string',
+            description:
+              'Product to Model endpoint transforms product images into people wearing those products. It supports dual-mode operation: standard product-to-model (generates new person) and try-on mode (adds product to existing person)',
+            enum: ['product-to-model'],
           },
           webhook_url: {
             type: 'string',
@@ -323,8 +382,8 @@ export const tool: Tool = {
               target_aspect_ratio: {
                 type: 'string',
                 description:
-                  "Target aspect ratio for the output canvas when using mode: 'aspect_ratio'. This parameter is ignored when mode: 'direction'.\n\n**Supported Aspect Ratios**\n\nEach aspect ratio corresponds to a specific resolution optimized for ~1MP output:\n\n| Aspect Ratio | Resolution | Use Case |\n|--------------|------------|----------|\n| 1:1 | 1024 × 1024 | Square format, social media |\n| 2:3 | 832 × 1248 | Portrait, fashion photography |\n| 3:4 | 880 × 1176 | Standard portrait |\n| 4:5 | 912 × 1144 | Instagram portrait |\n| 9:16 | 760 × 1360 | Vertical video format |\n| 4:3 | 1176 × 880 | Traditional landscape |",
-                enum: ['1:1', '2:3', '3:4', '4:5', '5:4', '4:3', '3:2', '16:9', '9:16'],
+                  "Target aspect ratio for the output canvas when using mode: 'aspect_ratio'. This parameter is ignored when mode: 'direction'.\n\n**Supported Aspect Ratios**\n\nEach aspect ratio corresponds to a specific resolution optimized for ~1MP output:\n\n| Aspect Ratio | Resolution | Use Case |\n|--------------|------------|----------|\n| 1:1 | 1024 × 1024 | Square format, social media |\n| 2:3 | 832 × 1248 | Portrait, fashion photography |\n| 3:2 | 1248 × 832 | Standard landscape |\n| 3:4 | 880 × 1176 | Standard portrait |\n| 4:3 | 1176 × 880 | Traditional landscape |\n| 4:5 | 912 × 1144 | Instagram portrait |\n| 5:4 | 1144 × 912 | Instagram landscape |\n| 9:16 | 760 × 1360 | Vertical video format |\n| 16:9 | 1360 × 760 | Horizontal video format |",
+                enum: ['1:1', '2:3', '3:2', '3:4', '4:3', '4:5', '5:4', '9:16', '16:9'],
               },
               target_direction: {
                 type: 'string',
