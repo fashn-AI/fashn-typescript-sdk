@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 (2025-09-02)
+
+Full Changelog: [v0.5.3...v0.6.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.5.3...v0.6.0)
+
+### Features
+
+* **api:** api update ([ff10d58](https://github.com/fashn-AI/fashn-typescript-sdk/commit/ff10d58e62dde5658b3df00545a249e2ae58b50c))
+
 ## 0.5.3 (2025-08-30)
 
 Full Changelog: [v0.5.2...v0.5.3](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.5.2...v0.5.3)
