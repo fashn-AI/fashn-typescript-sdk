@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.7.0 (2025-09-06)
+
+Full Changelog: [v0.6.0...v0.7.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.6.0...v0.7.0)
+
+### Features
+
+* **mcp:** allow setting logging level ([0321f84](https://github.com/fashn-AI/fashn-typescript-sdk/commit/0321f84124ceefffa65e3cb6c4f6e0b862f3ccec))
+* **mcp:** expose client options in `streamableHTTPApp` ([41d2004](https://github.com/fashn-AI/fashn-typescript-sdk/commit/41d2004d8f78b43a4dfdefba1019abdcada21e06))
+
+
+### Bug Fixes
+
+* **mcp:** fix query options parsing ([0281035](https://github.com/fashn-AI/fashn-typescript-sdk/commit/0281035801a7d175c0606bb408e5e6bb2d10f9c5))
+
+
+### Chores
+
+* ci build action ([03a4a93](https://github.com/fashn-AI/fashn-typescript-sdk/commit/03a4a93b63607063b92969364823ed4b36f751c9))
+* **internal:** codegen related update ([3ec8b52](https://github.com/fashn-AI/fashn-typescript-sdk/commit/3ec8b529814f53a4d1101180ebee16bc89471736))
+* **internal:** codegen related update ([590b581](https://github.com/fashn-AI/fashn-typescript-sdk/commit/590b581ad0fec61d32689e27ec8639e407026e62))
+
 ## 0.6.0 (2025-09-02)
 
 Full Changelog: [v0.5.3...v0.6.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.5.3...v0.6.0)
