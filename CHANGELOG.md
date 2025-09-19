@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.7.0 (2025-09-19)
+
+Full Changelog: [v0.6.0...v0.7.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.6.0...v0.7.0)
+
+### Features
+
+* **api:** api update ([85ced80](https://github.com/fashn-AI/fashn-typescript-sdk/commit/85ced80fb6e14b982d0703988a72b7d97b25b9bf))
+* **mcp:** add docs search tool ([3cee3bb](https://github.com/fashn-AI/fashn-typescript-sdk/commit/3cee3bbdfebfc8cb2ed14a9cff3279b5272cba4d))
+* **mcp:** allow setting logging level ([0321f84](https://github.com/fashn-AI/fashn-typescript-sdk/commit/0321f84124ceefffa65e3cb6c4f6e0b862f3ccec))
+* **mcp:** expose client options in `streamableHTTPApp` ([41d2004](https://github.com/fashn-AI/fashn-typescript-sdk/commit/41d2004d8f78b43a4dfdefba1019abdcada21e06))
+
+
+### Bug Fixes
+
+* **ci:** set permissions for DXT publish action ([d38f993](https://github.com/fashn-AI/fashn-typescript-sdk/commit/d38f993bed1e5b752ca18c3f9fd4a8a47be39495))
+* coerce nullable values to undefined ([305c916](https://github.com/fashn-AI/fashn-typescript-sdk/commit/305c916b05420168ca7dae2b501b4a8602eaf3e2))
+* **mcp:** fix query options parsing ([0281035](https://github.com/fashn-AI/fashn-typescript-sdk/commit/0281035801a7d175c0606bb408e5e6bb2d10f9c5))
+* **mcp:** fix uploading dxt release assets ([76c7108](https://github.com/fashn-AI/fashn-typescript-sdk/commit/76c7108064bd8bfb8dc68bcbff3d11ad472b8d67))
+* **mcp:** update dxt manifest.json files ([63c366c](https://github.com/fashn-AI/fashn-typescript-sdk/commit/63c366c01f8bbca01c35608f61ce1e4b5aaa142c))
+
+
+### Chores
+
+* ci build action ([03a4a93](https://github.com/fashn-AI/fashn-typescript-sdk/commit/03a4a93b63607063b92969364823ed4b36f751c9))
+* **codegen:** internal codegen update ([cd57ddf](https://github.com/fashn-AI/fashn-typescript-sdk/commit/cd57ddf16efb7d94add8603827cded210a742fdf))
+* **internal:** codegen related update ([3ec8b52](https://github.com/fashn-AI/fashn-typescript-sdk/commit/3ec8b529814f53a4d1101180ebee16bc89471736))
+* **internal:** codegen related update ([590b581](https://github.com/fashn-AI/fashn-typescript-sdk/commit/590b581ad0fec61d32689e27ec8639e407026e62))
+* **internal:** gitignore .mcpb files ([7481446](https://github.com/fashn-AI/fashn-typescript-sdk/commit/74814460327f7869d2ee50a7736e84533c819624))
+* **mcp:** rename dxt to mcpb ([67e4c40](https://github.com/fashn-AI/fashn-typescript-sdk/commit/67e4c401dd7470156ceaccd7f63838ad063e59b8))
+* **mcp:** upload dxt as release asset ([4bb1b19](https://github.com/fashn-AI/fashn-typescript-sdk/commit/4bb1b190675d46c5b1217966ace4f81f90e97af5))
+
 ## 0.6.0 (2025-09-02)
 
 Full Changelog: [v0.5.3...v0.6.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.5.3...v0.6.0)
