@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'run_predictions',
   description:
-    'Submit a prediction request for AI-powered fashion processing. Supports multiple model types including:\n- Virtual try-on (tryon-v1.6)\n- Model creation (model-create)\n- Model variation (model-variation)\n- Model swap (model-swap)\n- Product to model (product-to-model)\n- Background operations (background-remove, background-change)\n- Image reframing (reframe)\n\nAll requests use the versioned format with model_name and inputs structure.\n',
+    'Submit a prediction request for AI-powered fashion processing. Supports multiple model types including:\n- Virtual try-on (tryon-v1.6)\n- Model creation (model-create)\n- Model variation (model-variation)\n- Model swap (model-swap)\n- Product to model (product-to-model)\n- Face to model (face-to-model)\n- Background operations (background-remove, background-change)\n- Image reframing (reframe)\n\nAll requests use the versioned format with model_name and inputs structure.\n',
   inputSchema: {
     type: 'object',
     anyOf: [
@@ -154,6 +154,60 @@ export const tool: Tool = {
             description:
               'Product to Model endpoint transforms product images into people wearing those products. It supports dual-mode operation: standard product-to-model (generates new person) and try-on mode (adds product to existing person)',
             enum: ['product-to-model'],
+          },
+          webhook_url: {
+            type: 'string',
+            description: 'Optional webhook URL to receive completion notifications',
+          },
+        },
+        required: ['inputs', 'model_name'],
+      },
+      {
+        type: 'object',
+        properties: {
+          inputs: {
+            type: 'object',
+            properties: {
+              face_image: {
+                type: 'string',
+                description:
+                  'URL or base64 encoded image of the face to transform into an upper-body avatar. The AI will analyze facial features, hair, and skin tone to create a representation suitable for virtual try-on applications.\n\nBase64 images must include the proper prefix (e.g., data:image/jpg;base64,<YOUR_BASE64>)\n',
+              },
+              aspect_ratio: {
+                type: 'string',
+                description:
+                  'Desired aspect ratio for the output image. Only vertical ratios are supported. Images will always be extended downward to fit the aspect ratio.\n\n**Default:** `2:3`',
+                enum: ['1:1', '4:5', '3:4', '2:3', '9:16'],
+              },
+              output_format: {
+                type: 'string',
+                description:
+                  'Specifies the output image format.\n- `png` - PNG format, original quality\n- `jpeg` - JPEG format, smaller file size\n\n**Default:** `"jpeg"`',
+                enum: ['png', 'jpeg'],
+              },
+              prompt: {
+                type: 'string',
+                description:
+                  'Optional styling or body shape guidance for the avatar representation. Examples: "athletic build", "curvy figure", "slender frame".\n\nIf you don\'t provide a prompt, the body shape will be inferred from the face image.\n\n**Default:** Empty string\n',
+              },
+              return_base64: {
+                type: 'boolean',
+                description:
+                  'When set to `true`, the API will return the generated image as a base64-encoded string instead of a CDN URL. The base64 string will be prefixed `data:image/png;base64,...`.\n\nThis option offers enhanced privacy as user-generated outputs are not stored on our servers when `return_base64` is enabled.\n\n**Default:** `false`\n',
+              },
+              seed: {
+                type: 'integer',
+                description:
+                  'Sets random operations to a fixed state. Use the same seed to reproduce results with the same inputs, or different seed to force different results.',
+              },
+            },
+            required: ['face_image'],
+          },
+          model_name: {
+            type: 'string',
+            description:
+              'Face to Model endpoint transforms face images into try-on ready upper-body avatars. It converts cropped headshots or selfies into full upper-body representations that can be used in virtual try-on applications when full-body photos are not available, while preserving facial identity.',
+            enum: ['face-to-model'],
           },
           webhook_url: {
             type: 'string',
@@ -417,10 +471,10 @@ export const tool: Tool = {
                 description:
                   'Source image containing the subject to preserve. The AI will automatically detect and separate the foreground subject from the background. Base64 images must include the proper prefix (e.g., data:image/jpg;base64,<YOUR_BASE64>)',
               },
-              background_prompt: {
+              prompt: {
                 type: 'string',
                 description:
-                  'Text description of the desired background environment. The AI generates a new background based on this description and harmonizes it with the preserved foreground subject."\n\n**Default: Empty string (Natural background for the subject)**\n',
+                  "Description of the desired new background (e.g., 'beach sunset', 'modern office', 'forest clearing'). The AI generates a new background based on this description and harmonizes it with the preserved foreground subject.\n",
               },
               disable_prompt_enhancement: {
                 type: 'boolean',
@@ -430,7 +484,7 @@ export const tool: Tool = {
               output_format: {
                 type: 'string',
                 description:
-                  'Specifies the desired output image format.\n- `png`: Delivers the highest quality image, ideal for use cases such as content creation where quality is paramount.\n- `jpeg`: Provides a faster response with a slightly compressed image, more suitable for real-time applications.',
+                  'Specifies the output image format.\n- `png`: Delivers the highest quality image, ideal for use cases such as content creation where quality is paramount.\n- `jpeg`: Provides a faster response with a slightly compressed image, more suitable for real-time applications.',
                 enum: ['png', 'jpeg'],
               },
               return_base64: {
@@ -444,7 +498,7 @@ export const tool: Tool = {
                   'Sets random operations to a fixed state. Use the same seed to reproduce results with the same inputs, or different seed to force different results.',
               },
             },
-            required: ['image'],
+            required: ['image', 'prompt'],
           },
           model_name: {
             type: 'string',
