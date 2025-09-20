@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.1 (2025-09-20)
+
+Full Changelog: [v0.7.0...v0.7.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.7.0...v0.7.1)
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([9d7200b](https://github.com/fashn-AI/fashn-typescript-sdk/commit/9d7200bcbf5ccc7387c9f36df4652e696564a1cd))
+
 ## 0.7.0 (2025-09-19)
 
 Full Changelog: [v0.6.0...v0.7.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.6.0...v0.7.0)
