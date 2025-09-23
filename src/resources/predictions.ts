@@ -8,6 +8,7 @@ import { APIConnectionTimeoutError } from '../core/error';
 
 const DEFAULT_POLL_INTERVAL = 1000;
 const DEFAULT_TIMEOUT = 5 * 60 * 1000; // 5 minutes
+const DEFAULT_MAX_RETRIES = 3;
 
 export class Predictions extends APIResource {
   /**
@@ -121,6 +122,7 @@ export class Predictions extends APIResource {
     return new Promise((resolve, reject) => {
       const pollInterval = body.pollInterval ?? DEFAULT_POLL_INTERVAL;
       const timeout = body.timeout ?? DEFAULT_TIMEOUT;
+      const maxRetries = body.maxRetries ?? DEFAULT_MAX_RETRIES;
 
       let pollIntervalId: NodeJS.Timeout;
       let timeoutId: NodeJS.Timeout;
@@ -140,7 +142,10 @@ export class Predictions extends APIResource {
 
       const pool = async () => {
         try {
-          const status = await this._client.predictions.status(id, options);
+          const status = await this._client.predictions.status(id, {
+            ...options,
+            maxRetries,
+          });
           if (body.onQueueUpdate) {
             body.onQueueUpdate(status);
           }
@@ -1092,13 +1097,21 @@ export declare namespace PredictionRunParams {
 export type PredictionSubscribeParams = PredictionRunParams & {
   /**
    * The interval in milliseconds to poll the status of the prediction.
+   * @default 1000 (1 second)
    */
   pollInterval?: number;
 
   /**
    * The timeout in milliseconds to cancel the prediction.
+   * @default 300000 (5 minutes)
    */
   timeout?: number;
+
+  /**
+   * The maximum number of times that the client will retry the status polling request.
+   * @default 3
+   */
+  maxRetries?: number;
 
   /**
    * A callback function that is called when the prediction is enqueued.
