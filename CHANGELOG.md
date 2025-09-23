@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.8.0 (2025-09-23)
+
+Full Changelog: [v0.7.0...v0.8.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.7.0...v0.8.0)
+
+### Features
+
+* max retries parameter for status polling request ([1a11d0b](https://github.com/fashn-AI/fashn-typescript-sdk/commit/1a11d0be6ffed0f89d9609752cc2a9e174e92b84))
+* **mcp:** enable experimental docs search tool ([2b890a2](https://github.com/fashn-AI/fashn-typescript-sdk/commit/2b890a2843331a58d02ca29653d97dc154a30709))
+
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([9d7200b](https://github.com/fashn-AI/fashn-typescript-sdk/commit/9d7200bcbf5ccc7387c9f36df4652e696564a1cd))
+
 ## 0.7.0 (2025-09-19)
 
 Full Changelog: [v0.6.0...v0.7.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.6.0...v0.7.0)

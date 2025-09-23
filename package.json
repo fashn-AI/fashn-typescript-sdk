@@ -1,6 +1,6 @@
 {
   "name": "fashn",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "The official TypeScript library for the Fashn API",
   "author": "Fashn <>",
   "types": "dist/index.d.ts",
