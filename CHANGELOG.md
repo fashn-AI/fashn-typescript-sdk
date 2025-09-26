@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.9.0 (2025-09-26)
+
+Full Changelog: [v0.8.0...v0.9.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.8.0...v0.9.0)
+
+### Features
+
+* **api:** increase exponential backoff ([f72820f](https://github.com/fashn-AI/fashn-typescript-sdk/commit/f72820fa7af489ba6acfb39f38cc9ec774323b03))
+* **mcp:** add option for including docs tools ([a05003d](https://github.com/fashn-AI/fashn-typescript-sdk/commit/a05003d6e36d058bd8a9d1da4c2de8188164c57a))
+
+
+### Performance Improvements
+
+* faster formatting ([9796edc](https://github.com/fashn-AI/fashn-typescript-sdk/commit/9796edc4acf9f1e38b73765bb776115dfb8bf668))
+
+
+### Chores
+
+* **internal:** remove deprecated `compilerOptions.baseUrl` from tsconfig.json ([3b3d8e2](https://github.com/fashn-AI/fashn-typescript-sdk/commit/3b3d8e24351176137dd7674cc19361c1b2e54af7))
+
 ## 0.8.0 (2025-09-23)
 
 Full Changelog: [v0.7.0...v0.8.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.7.0...v0.8.0)
