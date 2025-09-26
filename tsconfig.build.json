@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "fashn/*": ["dist/src/*"],
-      "fashn": ["dist/src/index.ts"]
+      "fashn/*": ["./dist/src/*"],
+      "fashn": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

@@ -7,10 +7,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "./",
     "paths": {
-      "fashn-mcp/*": ["src/*"],
-      "fashn-mcp": ["src/index.ts"]
+      "fashn-mcp/*": ["./src/*"],
+      "fashn-mcp": ["./src/index.ts"]
     },
     "noEmit": true,
 
