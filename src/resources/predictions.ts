@@ -4,7 +4,6 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
-import { APIConnectionTimeoutError } from '../core/error';
 
 const DEFAULT_POLL_INTERVAL = 1000;
 const DEFAULT_TIMEOUT = 5 * 60 * 1000; // 5 minutes
@@ -136,7 +135,16 @@ export class Predictions extends APIResource {
         timeoutId = setTimeout(() => {
           clearScheduledTasks();
           // TODO: Cancel prediction on server when cancellation API is available
-          reject(new APIConnectionTimeoutError({ message: 'Timeout' }));
+          const timeoutStatus: PredictionSubscribeResponse = {
+            id,
+            status: 'time_out',
+            error: null,
+            output: null,
+          };
+          if (body.onQueueUpdate) {
+            body.onQueueUpdate(timeoutStatus);
+          }
+          resolve(timeoutStatus);
         }, timeout);
       }
 
