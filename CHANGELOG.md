@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.1 (2025-09-29)
+
+Full Changelog: [v0.9.0...v0.9.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.9.0...v0.9.1)
+
+### Bug Fixes
+
+* **api:** subscribe timeout as a runtime error ([8e252e5](https://github.com/fashn-AI/fashn-typescript-sdk/commit/8e252e5204eada76388c45a5a865ac417fb7de20))
+
+
+### Chores
+
+* **internal:** fix incremental formatting in some cases ([af5da99](https://github.com/fashn-AI/fashn-typescript-sdk/commit/af5da9938580f48fe25d933d35f683063686fabf))
+
 ## 0.9.0 (2025-09-26)
 
 Full Changelog: [v0.8.0...v0.9.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.8.0...v0.9.0)
