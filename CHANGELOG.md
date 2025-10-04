@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.9.2 (2025-10-04)
+
+Full Changelog: [v0.9.1...v0.9.2](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.9.1...v0.9.2)
+
+### Bug Fixes
+
+* **mcp:** fix cli argument parsing logic ([34b0c45](https://github.com/fashn-AI/fashn-typescript-sdk/commit/34b0c45a937979152c4d72dca224b7e5d8066c90))
+* **mcp:** resolve a linting issue in server code ([7954c44](https://github.com/fashn-AI/fashn-typescript-sdk/commit/7954c44d3464d105530a96b6014129a903322a46))
+
+
+### Chores
+
+* **internal:** codegen related update ([1dce877](https://github.com/fashn-AI/fashn-typescript-sdk/commit/1dce877a6c9c0ee48fb4806946ecd75800f30c19))
+* **internal:** ignore .eslintcache ([bc1e758](https://github.com/fashn-AI/fashn-typescript-sdk/commit/bc1e758c6448f59144d320337918f40f289fd384))
+* **internal:** remove .eslintcache ([6b22c71](https://github.com/fashn-AI/fashn-typescript-sdk/commit/6b22c71a882e049d9061a86c5a96a24a09c13051))
+* **internal:** version bump ([5a5ab7f](https://github.com/fashn-AI/fashn-typescript-sdk/commit/5a5ab7feec8374a3aab460b95ede41dcc2ad734b))
+* **jsdoc:** fix [@link](https://github.com/link) annotations to refer only to parts of the package‘s public interface ([1c5708a](https://github.com/fashn-AI/fashn-typescript-sdk/commit/1c5708ab187e40e23385b523733d8cb6946cd8c1))
+* **mcp:** allow pointing `docs_search` tool at other URLs ([d439794](https://github.com/fashn-AI/fashn-typescript-sdk/commit/d43979494228bf1fe6c2e0390fc7d171a7a41f6b))
+* update lockfile ([ec3be60](https://github.com/fashn-AI/fashn-typescript-sdk/commit/ec3be60923a3cf24ad12f32b50c8cd531eb4a8df))
+
 ## 0.9.1 (2025-09-29)
 
 Full Changelog: [v0.9.0...v0.9.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.9.0...v0.9.1)
