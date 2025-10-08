@@ -120,6 +120,11 @@ export const tool: Tool = {
                   "Desired aspect ratio for the output image. Only applies when `model_image` is not provided (standard product-to-model mode).\n\nWhen `model_image` is provided (try-on mode), this parameter is ignored and the output will match the `model_image`'s aspect ratio.\n            \n**Default:** product_image's aspect ratio (standard mode only)",
                 enum: ['1:1', '2:3', '3:4', '4:5', '5:4', '4:3', '3:2', '16:9', '9:16'],
               },
+              image_prompt: {
+                type: 'string',
+                description:
+                  'Optional URL or base64 of an inspiration image to guide pose, environment, and lighting while keeping the final edit product-centric.\n',
+              },
               model_image: {
                 type: 'string',
                 description:
@@ -135,6 +140,11 @@ export const tool: Tool = {
                 type: 'string',
                 description:
                   'Additional instructions for person appearance (when `model_image` is not provided), styling preferences, or background.\n\n**Examples:** "man with tattoos", "tucked-in", "open jacket", "rolled-up sleeves", "studio background", "professional office setting"\n\n**Default:** None\n',
+              },
+              resolution: {
+                type: 'string',
+                description: 'Resolution setting for the output image.',
+                enum: ['1k', '4k'],
               },
               return_base64: {
                 type: 'boolean',

@@ -369,6 +369,12 @@ export declare namespace PredictionRunParams {
       aspect_ratio?: '1:1' | '2:3' | '3:4' | '4:5' | '5:4' | '4:3' | '3:2' | '16:9' | '9:16';
 
       /**
+       * Optional URL or base64 of an inspiration image to guide pose, environment, and
+       * lighting while keeping the final edit product-centric.
+       */
+      image_prompt?: string;
+
+      /**
        * URL or base64 encoded image of the person to wear the product. When provided,
        * enables try-on mode. When omitted, generates a new person wearing the product.
        * Base64 images must include the proper prefix (e.g.,
@@ -396,6 +402,11 @@ export declare namespace PredictionRunParams {
        * **Default:** None
        */
       prompt?: string;
+
+      /**
+       * Resolution setting for the output image.
+       */
+      resolution?: '1k' | '4k';
 
       /**
        * When set to `true`, the API will return the generated image as a base64-encoded
