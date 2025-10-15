@@ -18,6 +18,7 @@ export class Predictions extends APIResource {
    * - Face to model (face-to-model)
    * - Background operations (background-remove, background-change)
    * - Image reframing (reframe)
+   * - Image to video (image-to-video)
    *
    * All requests use the versioned format with model_name and inputs structure.
    *
@@ -96,7 +97,8 @@ export interface PredictionStatusResponse {
   status: 'starting' | 'in_queue' | 'processing' | 'completed' | 'failed' | 'canceled' | 'time_out';
 
   /**
-   * Generated images - format depends on original request's return_base64 setting
+   * Generated media - for images, outputs are either CDN URLs or base64 (when
+   * requested); for videos, outputs are CDN MP4 URLs
    */
   output?: Array<string> | Array<string> | null;
 }
@@ -203,7 +205,8 @@ export type PredictionRunParams =
   | PredictionRunParams.ModelSwapRequest
   | PredictionRunParams.ReframeRequest
   | PredictionRunParams.BackgroundChangeRequest
-  | PredictionRunParams.BackgroundRemoveRequest;
+  | PredictionRunParams.BackgroundRemoveRequest
+  | PredictionRunParams.ImageToVideoRequest;
 
 export declare namespace PredictionRunParams {
   export interface TryOnRequest {
@@ -997,6 +1000,59 @@ export declare namespace PredictionRunParams {
        * enabled.
        */
       return_base64?: boolean;
+    }
+  }
+
+  export interface ImageToVideoRequest {
+    /**
+     * Body param:
+     */
+    inputs: ImageToVideoRequest.Inputs;
+
+    /**
+     * Body param: Image to Video turns a single image into a short motion clip, with
+     * tasteful camera work and model movements tailored for fashion.
+     */
+    model_name: 'image-to-video';
+
+    /**
+     * Query param: Optional webhook URL to receive completion notifications
+     */
+    webhook_url?: string;
+  }
+
+  export namespace ImageToVideoRequest {
+    export interface Inputs {
+      /**
+       * Source image to animate into a short video.
+       *
+       * Base64 images must include the proper prefix (e.g.,
+       * `data:image/jpg;base64,<YOUR_BASE64>`)
+       */
+      image: string;
+
+      /**
+       * Duration of the generated video in seconds.
+       */
+      duration?: 5 | 10;
+
+      /**
+       * Optional cues to avoid undesirable motion or framing.
+       */
+      negative_prompt?: string;
+
+      /**
+       * Optional motion guidance. Detailed prompting is not recommended because motion
+       * is difficult to control precisely. For the best results, leave this field empty
+       * and allow the system to plan motion automatically. If you include guidance, keep
+       * it short and concrete (e.g., "raising hand to touch face").
+       */
+      prompt?: string;
+
+      /**
+       * Target video resolution used by the internal video engine.
+       */
+      resolution?: '480p' | '720p' | '1080p';
     }
   }
 }

@@ -216,6 +216,7 @@ The following tools are available in this MCP server.
   - Face to model (face-to-model)
   - Background operations (background-remove, background-change)
   - Image reframing (reframe)
+  - Image to video (image-to-video)
 
   All requests use the versioned format with model_name and inputs structure.
 
