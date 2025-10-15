@@ -34,7 +34,7 @@ export const newMcpServer = () =>
   new McpServer(
     {
       name: 'fashn_api',
-      version: '0.10.0',
+      version: '0.11.0',
     },
     { capabilities: { tools: {}, logging: {} } },
   );
