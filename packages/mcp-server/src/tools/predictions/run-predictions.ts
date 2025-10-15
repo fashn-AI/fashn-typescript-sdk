@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'run_predictions',
   description:
-    'Submit a prediction request for AI-powered fashion processing. Supports multiple model types including:\n- Virtual try-on (tryon-v1.6)\n- Model creation (model-create)\n- Model variation (model-variation)\n- Model swap (model-swap)\n- Product to model (product-to-model)\n- Face to model (face-to-model)\n- Background operations (background-remove, background-change)\n- Image reframing (reframe)\n\nAll requests use the versioned format with model_name and inputs structure.\n',
+    'Submit a prediction request for AI-powered fashion processing. Supports multiple model types including:\n- Virtual try-on (tryon-v1.6)\n- Model creation (model-create)\n- Model variation (model-variation)\n- Model swap (model-swap)\n- Product to model (product-to-model)\n- Face to model (face-to-model)\n- Background operations (background-remove, background-change)\n- Image reframing (reframe)\n- Image to video (image-to-video)\n\nAll requests use the versioned format with model_name and inputs structure.\n',
   inputSchema: {
     type: 'object',
     anyOf: [
@@ -545,6 +545,52 @@ export const tool: Tool = {
             type: 'string',
             description: 'Background removal endpoint',
             enum: ['background-remove'],
+          },
+          webhook_url: {
+            type: 'string',
+            description: 'Optional webhook URL to receive completion notifications',
+          },
+        },
+        required: ['inputs', 'model_name'],
+      },
+      {
+        type: 'object',
+        properties: {
+          inputs: {
+            type: 'object',
+            properties: {
+              image: {
+                type: 'string',
+                description:
+                  'Source image to animate into a short video.\n\nBase64 images must include the proper prefix (e.g., `data:image/jpg;base64,<YOUR_BASE64>`)\n',
+              },
+              duration: {
+                type: 'string',
+                description: 'Duration of the generated video in seconds.',
+                enum: [5, 10],
+              },
+              negative_prompt: {
+                type: 'string',
+                description: 'Optional cues to avoid undesirable motion or framing.',
+              },
+              prompt: {
+                type: 'string',
+                description:
+                  'Optional motion guidance. Detailed prompting is not recommended because motion is difficult to control precisely. For the best results, leave this field empty and allow the system to plan motion automatically. If you include guidance, keep it short and concrete (e.g., "raising hand to touch face").\n',
+              },
+              resolution: {
+                type: 'string',
+                description: 'Target video resolution used by the internal video engine.',
+                enum: ['480p', '720p', '1080p'],
+              },
+            },
+            required: ['image'],
+          },
+          model_name: {
+            type: 'string',
+            description:
+              'Image to Video turns a single image into a short motion clip, with tasteful camera work and model movements tailored for fashion.',
+            enum: ['image-to-video'],
           },
           webhook_url: {
             type: 'string',
