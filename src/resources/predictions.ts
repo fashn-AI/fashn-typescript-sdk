@@ -8,6 +8,7 @@ import { path } from '../internal/utils/path';
 const DEFAULT_POLL_INTERVAL = 1000;
 const DEFAULT_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 const DEFAULT_MAX_RETRIES = 3;
+const CREDITS_HEADER = 'x-fashn-credits-used';
 
 export class Predictions extends APIResource {
   /**
@@ -151,10 +152,12 @@ export class Predictions extends APIResource {
 
       const pool = async () => {
         try {
-          const status = await this._client.predictions.status(id, {
-            ...options,
-            maxRetries,
-          });
+          const { data: status, response } = await this._client.predictions
+            .status(id, {
+              ...options,
+              maxRetries,
+            })
+            .withResponse();
           if (body.onQueueUpdate) {
             body.onQueueUpdate(status);
           }
@@ -165,7 +168,13 @@ export class Predictions extends APIResource {
             status.status !== 'processing'
           ) {
             clearScheduledTasks();
-            return resolve(status as PredictionSubscribeResponse);
+
+            const result = { ...status } as PredictionSubscribeResponse;
+            const creditsUsedHeader = response.headers.get(CREDITS_HEADER);
+            if (creditsUsedHeader) {
+              result.creditsUsed = Number(creditsUsedHeader);
+            }
+            return resolve(result);
           }
 
           pollIntervalId = setTimeout(pool, pollInterval);
@@ -1204,6 +1213,10 @@ export interface PredictionSubscribeResponse extends Omit<PredictionStatusRespon
    * Current status of the prediction - only terminal states since subscribe() waits for completion
    */
   status: 'completed' | 'failed' | 'canceled' | 'time_out';
+  /**
+   * Number of credits consumed by this prediction.
+   */
+  creditsUsed?: number;
 }
 
 export declare namespace Predictions {
