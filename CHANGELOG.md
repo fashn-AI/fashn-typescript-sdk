@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.11.1 (2025-10-16)
+
+Full Changelog: [v0.11.0...v0.11.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.11.0...v0.11.1)
+
+### Bug Fixes
+
+* add error details to time_out response ([6fefd1d](https://github.com/fashn-AI/fashn-typescript-sdk/commit/6fefd1df715967cd1d0708f687ed525927a6c228))
+
 ## 0.11.0 (2025-10-15)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.10.0...v0.11.0)
