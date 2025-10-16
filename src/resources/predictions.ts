@@ -140,13 +140,16 @@ export class Predictions extends APIResource {
           const timeoutStatus: PredictionSubscribeResponse = {
             id,
             status: 'time_out',
-            error: null,
+            error: {
+              name: 'PollingTimeout',
+              message: 'Prediction polling timed out.',
+            },
             output: null,
           };
           if (body.onQueueUpdate) {
             body.onQueueUpdate(timeoutStatus);
           }
-          resolve(timeoutStatus);
+          return resolve(timeoutStatus);
         }, timeout);
       }
 
@@ -303,6 +306,11 @@ export namespace PredictionStatusResponse {
      * - _Cause_: Unexpected server-side failure
      * - _Solution_: Retry request. Contact support@fashn.ai with prediction ID if
      *   persists
+     *
+     * **PollingTimeout** - Prediction polling timed out
+     *
+     * - _Cause_: Prediction polling timed out
+     * - _Solution_: Retry request or increase the timeout parameter
      */
     name:
       | 'ImageLoadError'
@@ -313,7 +321,8 @@ export namespace PredictionStatusResponse {
       | 'PipelineError'
       | 'ThirdPartyError'
       | '3rdPartyProviderError'
-      | 'InternalServerError';
+      | 'InternalServerError'
+      | 'PollingTimeout';
   }
 }
 
