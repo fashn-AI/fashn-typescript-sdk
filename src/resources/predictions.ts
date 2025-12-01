@@ -19,6 +19,7 @@ export class Predictions extends APIResource {
    * - Background operations (background-remove, background-change)
    * - Image reframing (reframe)
    * - Image to video (image-to-video)
+   * - Image editing (edit)
    *
    * All requests use the versioned format with model_name and inputs structure.
    *
@@ -206,7 +207,8 @@ export type PredictionRunParams =
   | PredictionRunParams.ReframeRequest
   | PredictionRunParams.BackgroundChangeRequest
   | PredictionRunParams.BackgroundRemoveRequest
-  | PredictionRunParams.ImageToVideoRequest;
+  | PredictionRunParams.ImageToVideoRequest
+  | PredictionRunParams.EditRequest;
 
 export declare namespace PredictionRunParams {
   export interface TryOnRequest {
@@ -1053,6 +1055,84 @@ export declare namespace PredictionRunParams {
        * Target video resolution used by the internal video engine.
        */
       resolution?: '480p' | '720p' | '1080p';
+    }
+  }
+
+  export interface EditRequest {
+    /**
+     * Body param:
+     */
+    inputs: EditRequest.Inputs;
+
+    /**
+     * Body param: Versatile post-processing to restyle shots, adjust views, and fix
+     * details while preserving identity and product fidelity.
+     */
+    model_name: 'edit';
+
+    /**
+     * Query param: Optional webhook URL to receive completion notifications
+     */
+    webhook_url?: string;
+  }
+
+  export namespace EditRequest {
+    export interface Inputs {
+      /**
+       * Source image to edit. The AI will apply the requested modifications based on
+       * your prompt while preserving the overall composition and identity of the image.
+       *
+       * Base64 images must include the proper prefix (e.g.,
+       * `data:image/jpg;base64,<YOUR_BASE64>`)
+       */
+      image: string;
+
+      /**
+       * Natural language description of the edit to apply. Be specific about what you
+       * want to change.
+       *
+       * **Examples:** "change the dress to red", "add sunglasses", "make the background
+       * a beach sunset", "change the shirt to a floral pattern"
+       */
+      prompt: string;
+
+      /**
+       * Number of images to generate in a single run. Image generation has a random
+       * element in it, so trying multiple images at once increases the chances of
+       * getting a good result.
+       */
+      num_images?: number;
+
+      /**
+       * Specifies the desired output image format.
+       *
+       * - `png`: Delivers the highest quality image, ideal for use cases such as content
+       *   creation where quality is paramount.
+       * - `jpeg`: Provides a faster response with a slightly compressed image, more
+       *   suitable for real-time applications.
+       */
+      output_format?: 'png' | 'jpeg';
+
+      /**
+       * Resolution setting for the output image.
+       */
+      resolution?: '1k' | '4k';
+
+      /**
+       * When set to `true`, the API will return the generated image as a base64-encoded
+       * string instead of a CDN URL. The base64 string will be prefixed according to the
+       * `output_format` (e.g., `data:image/png;base64,...` or
+       * `data:image/jpeg;base64,...`). This option offers enhanced privacy as
+       * user-generated outputs are not stored on our servers when `return_base64` is
+       * enabled.
+       */
+      return_base64?: boolean;
+
+      /**
+       * Sets random operations to a fixed state. Use the same seed to reproduce results
+       * with the same inputs, or different seed to force different results.
+       */
+      seed?: number;
     }
   }
 }

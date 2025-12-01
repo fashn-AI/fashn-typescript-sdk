@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const tool: Tool = {
   name: 'run_predictions',
   description:
-    'Submit a prediction request for AI-powered fashion processing. Supports multiple model types including:\n- Virtual try-on (tryon-v1.6)\n- Model creation (model-create)\n- Model variation (model-variation)\n- Model swap (model-swap)\n- Product to model (product-to-model)\n- Face to model (face-to-model)\n- Background operations (background-remove, background-change)\n- Image reframing (reframe)\n- Image to video (image-to-video)\n\nAll requests use the versioned format with model_name and inputs structure.\n',
+    'Submit a prediction request for AI-powered fashion processing. Supports multiple model types including:\n- Virtual try-on (tryon-v1.6)\n- Model creation (model-create)\n- Model variation (model-variation)\n- Model swap (model-swap)\n- Product to model (product-to-model)\n- Face to model (face-to-model)\n- Background operations (background-remove, background-change)\n- Image reframing (reframe)\n- Image to video (image-to-video)\n- Image editing (edit)\n\nAll requests use the versioned format with model_name and inputs structure.\n',
   inputSchema: {
     type: 'object',
     anyOf: [
@@ -591,6 +591,64 @@ export const tool: Tool = {
             description:
               'Image to Video turns a single image into a short motion clip, with tasteful camera work and model movements tailored for fashion.',
             enum: ['image-to-video'],
+          },
+          webhook_url: {
+            type: 'string',
+            description: 'Optional webhook URL to receive completion notifications',
+          },
+        },
+        required: ['inputs', 'model_name'],
+      },
+      {
+        type: 'object',
+        properties: {
+          inputs: {
+            type: 'object',
+            properties: {
+              image: {
+                type: 'string',
+                description:
+                  'Source image to edit. The AI will apply the requested modifications based on your prompt while preserving the overall composition and identity of the image.\n\nBase64 images must include the proper prefix (e.g., `data:image/jpg;base64,<YOUR_BASE64>`)\n',
+              },
+              prompt: {
+                type: 'string',
+                description:
+                  'Natural language description of the edit to apply. Be specific about what you want to change.\n\n**Examples:** "change the dress to red", "add sunglasses", "make the background a beach sunset", "change the shirt to a floral pattern"\n',
+              },
+              num_images: {
+                type: 'integer',
+                description:
+                  'Number of images to generate in a single run. Image generation has a random element in it, so trying multiple images at once increases the chances of getting a good result.',
+              },
+              output_format: {
+                type: 'string',
+                description:
+                  'Specifies the desired output image format.\n- `png`: Delivers the highest quality image, ideal for use cases such as content creation where quality is paramount.\n- `jpeg`: Provides a faster response with a slightly compressed image, more suitable for real-time applications.',
+                enum: ['png', 'jpeg'],
+              },
+              resolution: {
+                type: 'string',
+                description: 'Resolution setting for the output image.',
+                enum: ['1k', '4k'],
+              },
+              return_base64: {
+                type: 'boolean',
+                description:
+                  'When set to `true`, the API will return the generated image as a base64-encoded string instead of a CDN URL. The base64 string will be prefixed according to the `output_format` (e.g., `data:image/png;base64,...` or `data:image/jpeg;base64,...`). This option offers enhanced privacy as user-generated outputs are not stored on our servers when `return_base64` is enabled.',
+              },
+              seed: {
+                type: 'integer',
+                description:
+                  'Sets random operations to a fixed state. Use the same seed to reproduce results with the same inputs, or different seed to force different results.',
+              },
+            },
+            required: ['image', 'prompt'],
+          },
+          model_name: {
+            type: 'string',
+            description:
+              'Versatile post-processing to restyle shots, adjust views, and fix details while preserving identity and product fidelity.',
+            enum: ['edit'],
           },
           webhook_url: {
             type: 'string',
