@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Metadata, asTextContentResult } from 'fashn-mcp/tools/types';
+import { Metadata, asErrorResult, asTextContentResult } from 'fashn-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Fashn from 'fashn';
@@ -664,7 +664,14 @@ export const tool: Tool = {
 
 export const handler = async (client: Fashn, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asTextContentResult(await client.predictions.run(body));
+  try {
+    return asTextContentResult(await client.predictions.run(body));
+  } catch (error) {
+    if (error instanceof Fashn.APIError) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };

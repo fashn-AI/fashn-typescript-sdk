@@ -44,7 +44,7 @@ export const handler = async (client: Fashn, args: Record<string, unknown> | und
   try {
     return asTextContentResult(await maybeFilter(jq_filter, await client.predictions.status(id)));
   } catch (error) {
-    if (isJqError(error)) {
+    if (error instanceof Fashn.APIError || isJqError(error)) {
       return asErrorResult(error.message);
     }
     throw error;
