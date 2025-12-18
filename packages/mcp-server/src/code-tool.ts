@@ -35,7 +35,10 @@ export async function codeTool() {
       headers: {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
-        client_envs: JSON.stringify({ FASHN_API_KEY: readEnv('FASHN_API_KEY') }),
+        client_envs: JSON.stringify({
+          FASHN_API_KEY: readEnv('FASHN_API_KEY'),
+          FASHN_BASE_URL: readEnv('FASHN_BASE_URL'),
+        }),
       },
       body: JSON.stringify({
         project_name: 'fashn-sdk',
