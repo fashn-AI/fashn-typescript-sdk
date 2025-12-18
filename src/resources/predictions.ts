@@ -1227,6 +1227,15 @@ export declare namespace PredictionRunParams {
       prompt: string;
 
       /**
+       * Optional URL or base64 of a context image to guide the edit. This image provides
+       * additional visual context that influences how the edit is applied.
+       *
+       * Base64 images must include the proper prefix (e.g.,
+       * `data:image/jpg;base64,<YOUR_BASE64>`)
+       */
+      image_context?: string;
+
+      /**
        * Number of images to generate in a single run. Image generation has a random
        * element in it, so trying multiple images at once increases the chances of
        * getting a good result.

@@ -615,6 +615,11 @@ export const tool: Tool = {
                 description:
                   'Natural language description of the edit to apply. Be specific about what you want to change.\n\n**Examples:** "change the dress to red", "add sunglasses", "make the background a beach sunset", "change the shirt to a floral pattern"\n',
               },
+              image_context: {
+                type: 'string',
+                description:
+                  'Optional URL or base64 of a context image to guide the edit. This image provides additional visual context that influences how the edit is applied.\n\nBase64 images must include the proper prefix (e.g., `data:image/jpg;base64,<YOUR_BASE64>`)\n',
+              },
               num_images: {
                 type: 'integer',
                 description:
