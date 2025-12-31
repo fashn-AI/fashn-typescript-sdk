@@ -942,12 +942,44 @@ export declare namespace PredictionRunParams {
   export namespace ReframeRequest {
     export interface Inputs {
       /**
-       * Source image to extend or reframe. The AI will intelligently generate new
-       * content to expand the image based on the selected mode and parameters.
+       * Target aspect ratio for the reframed image. The AI determines whether expansion
+       * or cropping is more appropriate based on the current image content and
+       * dimensions.
        *
-       * Resolution Handling: Output resolution is limited to 1MP. If your image is
-       * already at or above this size, it will be downsampled so that, after any
-       * extensions are applied, the final result fits within the 1MP limit.
+       * **Behavior:**
+       *
+       * - If target is wider than source → may expand horizontally or crop vertically
+       * - If target is taller than source → may expand vertically or crop horizontally
+       * - If source already matches target (within 2% tolerance) → returns an error
+       *
+       * **Supported Aspect Ratios**
+       *
+       * Each aspect ratio corresponds to a specific resolution optimized for ~1MP
+       * output:
+       *
+       * | Aspect Ratio | Resolution  | Use Case                      |
+       * | ------------ | ----------- | ----------------------------- |
+       * | 21:9         | 1568 × 672  | Ultra-wide cinematic          |
+       * | 1:1          | 1024 × 1024 | Square format, social media   |
+       * | 4:3          | 1176 × 880  | Traditional landscape         |
+       * | 3:2          | 1248 × 832  | Standard landscape            |
+       * | 2:3          | 832 × 1248  | Portrait, fashion photography |
+       * | 5:4          | 1144 × 912  | Instagram landscape           |
+       * | 4:5          | 912 × 1144  | Instagram portrait            |
+       * | 3:4          | 880 × 1176  | Standard portrait             |
+       * | 16:9         | 1360 × 760  | Horizontal video format       |
+       * | 9:16         | 760 × 1360  | Vertical video format         |
+       */
+      aspect_ratio: '21:9' | '1:1' | '4:3' | '3:2' | '2:3' | '5:4' | '4:5' | '3:4' | '16:9' | '9:16';
+
+      /**
+       * Source image to reframe to a new aspect ratio. The AI will intelligently analyze
+       * the image content and decide whether to expand (outpainting/zoom-out) or crop
+       * (zoom-in) based on subject position, content density, and edge details.
+       *
+       * Resolution Handling: Output resolution is limited to ~1MP. If your image is
+       * already at or above this size, it will be downsampled so that, after reframing,
+       * the final result fits within the 1MP limit.
        *
        * Base64 Format: Base64 images must include the proper prefix (e.g.,
        * data:image/jpg;base64,<YOUR_BASE64>)
@@ -955,17 +987,11 @@ export declare namespace PredictionRunParams {
       image: string;
 
       /**
-       * Selects the reframing operation mode.
-       *
-       * - `direction` - Directed zoom-out: extend image in specific directions to reveal
-       *   more content.
-       * - `aspect_ratio` - Canvas adjustment: transform image to match a target aspect
-       *   ratio.
-       *
-       * **Note: direction mode requires target_direction, aspect_ratio mode requires
-       * target_aspect_ratio.**"
+       * Number of images to generate in a single run. Image generation has a random
+       * element in it, so trying multiple images at once increases the chances of
+       * getting a good result.
        */
-      mode?: 'direction' | 'aspect_ratio';
+      num_images?: number;
 
       /**
        * Specifies the desired output image format.
@@ -992,41 +1018,6 @@ export declare namespace PredictionRunParams {
        * with the same inputs, or different seed to force different results.
        */
       seed?: number;
-
-      /**
-       * Target aspect ratio for the output canvas when using mode: 'aspect_ratio'. This
-       * parameter is ignored when mode: 'direction'.
-       *
-       * **Supported Aspect Ratios**
-       *
-       * Each aspect ratio corresponds to a specific resolution optimized for ~1MP
-       * output:
-       *
-       * | Aspect Ratio | Resolution  | Use Case                      |
-       * | ------------ | ----------- | ----------------------------- |
-       * | 1:1          | 1024 × 1024 | Square format, social media   |
-       * | 2:3          | 832 × 1248  | Portrait, fashion photography |
-       * | 3:2          | 1248 × 832  | Standard landscape            |
-       * | 3:4          | 880 × 1176  | Standard portrait             |
-       * | 4:3          | 1176 × 880  | Traditional landscape         |
-       * | 4:5          | 912 × 1144  | Instagram portrait            |
-       * | 5:4          | 1144 × 912  | Instagram landscape           |
-       * | 9:16         | 760 × 1360  | Vertical video format         |
-       * | 16:9         | 1360 × 760  | Horizontal video format       |
-       */
-      target_aspect_ratio?: '1:1' | '2:3' | '3:2' | '3:4' | '4:3' | '4:5' | '5:4' | '9:16' | '16:9';
-
-      /**
-       * Direction of image extension when using mode: 'direction'. This parameter is
-       * ignored when mode: 'aspect_ratio'.
-       *
-       * - `both` - Expand in both directions (zoom out effect).
-       * - `down` - Expand only downward (reveal lower content, e.g., show full body from
-       *   upper body shot).
-       * - `up` - Expand only upward (reveal upper content, e.g., show face from headless
-       *   shot).
-       */
-      target_direction?: 'both' | 'down' | 'up';
     }
   }
 
