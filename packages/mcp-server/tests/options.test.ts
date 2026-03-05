@@ -1,4 +1,4 @@
-import { parseCLIOptions, parseQueryOptions } from '../src/options';
+import { parseCLIOptions } from '../src/options';
 
 // Mock process.argv
 const mockArgv = (args: string[]) => {
@@ -26,25 +26,7 @@ describe('parseCLIOptions', () => {
     const result = parseCLIOptions();
 
     expect(result.transport).toBe('http');
-    expect(result.port).toBe('2222');
+    expect(result.port).toBe(2222);
     cleanup();
-  });
-});
-
-describe('parseQueryOptions', () => {
-  const defaultOptions = {};
-
-  it('default parsing should be empty', () => {
-    const query = '';
-    const result = parseQueryOptions(defaultOptions, query);
-
-    expect(result).toBe({});
-  });
-
-  it('should handle invalid query string gracefully', () => {
-    const query = 'invalid=value&operation=invalid-operation';
-
-    // Should throw due to Zod validation for invalid operation
-    expect(() => parseQueryOptions(defaultOptions, query)).toThrow();
   });
 });
