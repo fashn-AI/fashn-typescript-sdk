@@ -20,7 +20,7 @@ export const newMcpServer = async (stainlessApiKey: string | undefined) =>
   new McpServer(
     {
       name: 'fashn_api',
-      version: '0.11.1',
+      version: '0.12.0',
     },
     {
       instructions: await getInstructions(stainlessApiKey),
