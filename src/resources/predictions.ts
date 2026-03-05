@@ -10,6 +10,9 @@ const DEFAULT_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 const DEFAULT_MAX_RETRIES = 3;
 const CREDITS_HEADER = 'x-fashn-credits-used';
 
+/**
+ * AI prediction operations
+ */
 export class Predictions extends APIResource {
   /**
    * Submit a prediction request for AI-powered fashion processing. Supports multiple
@@ -343,7 +346,7 @@ export type PredictionRunParams =
 export declare namespace PredictionRunParams {
   export interface TryOnRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: TryOnRequest.Inputs;
 
@@ -465,7 +468,7 @@ export declare namespace PredictionRunParams {
 
   export interface ProductToModelRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: ProductToModelRequest.Inputs;
 
@@ -564,7 +567,7 @@ export declare namespace PredictionRunParams {
 
   export interface FaceToModelRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: FaceToModelRequest.Inputs;
 
@@ -645,7 +648,7 @@ export declare namespace PredictionRunParams {
 
   export interface ModelCreateRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: ModelCreateRequest.Inputs;
 
@@ -761,7 +764,7 @@ export declare namespace PredictionRunParams {
 
   export interface ModelVariationRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: ModelVariationRequest.Inputs;
 
@@ -835,7 +838,7 @@ export declare namespace PredictionRunParams {
 
   export interface ModelSwapRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: ModelSwapRequest.Inputs;
 
@@ -924,7 +927,7 @@ export declare namespace PredictionRunParams {
 
   export interface ReframeRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: ReframeRequest.Inputs;
 
@@ -1023,7 +1026,7 @@ export declare namespace PredictionRunParams {
 
   export interface BackgroundChangeRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: BackgroundChangeRequest.Inputs;
 
@@ -1090,7 +1093,7 @@ export declare namespace PredictionRunParams {
 
   export interface BackgroundRemoveRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: BackgroundRemoveRequest.Inputs;
 
@@ -1128,7 +1131,7 @@ export declare namespace PredictionRunParams {
 
   export interface ImageToVideoRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: ImageToVideoRequest.Inputs;
 
@@ -1181,7 +1184,7 @@ export declare namespace PredictionRunParams {
 
   export interface EditRequest {
     /**
-     * Body param:
+     * Body param
      */
     inputs: EditRequest.Inputs;
 

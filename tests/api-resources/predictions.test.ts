@@ -8,7 +8,7 @@ const client = new Fashn({
 });
 
 describe('resource predictions', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('run: only required params', async () => {
     const responsePromise = client.predictions.run({
       inputs: {
@@ -26,7 +26,7 @@ describe('resource predictions', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('run: required and optional params', async () => {
     const response = await client.predictions.run({
       inputs: {
@@ -47,7 +47,7 @@ describe('resource predictions', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('status', async () => {
     const responsePromise = client.predictions.status('123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1');
     const rawResponse = await responsePromise.asResponse();
