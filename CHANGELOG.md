@@ -1,5 +1,57 @@
 # Changelog
 
+## 0.12.0 (2026-03-05)
+
+Full Changelog: [v0.11.1...v0.12.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.11.1...v0.12.0)
+
+### Features
+
+* **api:** api update ([d67edb7](https://github.com/fashn-AI/fashn-typescript-sdk/commit/d67edb72f6551fb54f212a3d03c35592c75b5972))
+* **api:** api update ([d132b3b](https://github.com/fashn-AI/fashn-typescript-sdk/commit/d132b3b098159b6317d3f5437610be7a79b5231a))
+* **api:** api update ([d0c263a](https://github.com/fashn-AI/fashn-typescript-sdk/commit/d0c263ab76c1c3a694eed52c73352858085104b4))
+* **api:** api update ([dc8c952](https://github.com/fashn-AI/fashn-typescript-sdk/commit/dc8c9521b3f431ef5a2f0bf57c895d02787657c4))
+* **mcp:** add detail field to docs search tool ([1fba3f3](https://github.com/fashn-AI/fashn-typescript-sdk/commit/1fba3f3be9441aadaf8fa7a5d79d04db90c75b7c))
+* **mcp:** add typescript check to code execution tool ([56bbbdb](https://github.com/fashn-AI/fashn-typescript-sdk/commit/56bbbdb080da97cfb041398fd3fc7a3b58647311))
+* **mcp:** enable optional code execution tool on http mcp servers ([3a012fd](https://github.com/fashn-AI/fashn-typescript-sdk/commit/3a012fd3edd94ab1afd3af1539efe84d4b0b1225))
+* **mcp:** handle code mode calls in the Stainless API ([5923e2d](https://github.com/fashn-AI/fashn-typescript-sdk/commit/5923e2d8c84356ac17696ae617ddda6d99e5036c))
+* **mcp:** return logs on code tool errors ([e81a1fc](https://github.com/fashn-AI/fashn-typescript-sdk/commit/e81a1fcc60c8ecb7ba5552c67c1bf8a5adddec6f))
+
+
+### Bug Fixes
+
+* **mcp:** add client instantiation options to code tool ([ba58aac](https://github.com/fashn-AI/fashn-typescript-sdk/commit/ba58aac2a2cf287c436591c45ab2f29195ff9ffa))
+* **mcpb:** pin @anthropic-ai/mcpb version ([56a0dc0](https://github.com/fashn-AI/fashn-typescript-sdk/commit/56a0dc098f338466562cd36f8c7fc6ae69a1ef04))
+* **mcp:** correct code tool API endpoint ([84a7115](https://github.com/fashn-AI/fashn-typescript-sdk/commit/84a711543d027c9677f0814c59c6118b3bc949ac))
+* **mcp:** return correct lines on typescript errors ([341285a](https://github.com/fashn-AI/fashn-typescript-sdk/commit/341285aaa6b1937bc137c46bcd998d844c2848e5))
+* **mcp:** return tool execution error on api error ([984f80b](https://github.com/fashn-AI/fashn-typescript-sdk/commit/984f80bdcbf4f57786e2638e86d49043e25f3ac9))
+* **mcp:** return tool execution error on jq failure ([17e6017](https://github.com/fashn-AI/fashn-typescript-sdk/commit/17e6017f410702b71621ac12a0cb8b35cd1c2995))
+
+
+### Chores
+
+* **client:** fix logger property type ([5ae59f9](https://github.com/fashn-AI/fashn-typescript-sdk/commit/5ae59f981140bbb06e3f856cb5b7d2ee804d90fb))
+* configure new SDK language ([4bbc246](https://github.com/fashn-AI/fashn-typescript-sdk/commit/4bbc24684831e1ef09b4fd1c35d9cfb1e08db616))
+* **internal:** codegen related update ([a7387fb](https://github.com/fashn-AI/fashn-typescript-sdk/commit/a7387fb57126a24cc60f33cf293bef7b56b278b4))
+* **internal:** codegen related update ([50f4c76](https://github.com/fashn-AI/fashn-typescript-sdk/commit/50f4c76e7eb15f682c762c495e1455c0b5821912))
+* **internal:** codegen related update ([84e0b10](https://github.com/fashn-AI/fashn-typescript-sdk/commit/84e0b10ad171d8c13f27bf13a55f33f488cfb021))
+* **internal:** codegen related update ([ff12c2b](https://github.com/fashn-AI/fashn-typescript-sdk/commit/ff12c2bb480f88554bfad470701f7e2e6c592717))
+* **internal:** grammar fix (it's -&gt; its) ([4b31fa9](https://github.com/fashn-AI/fashn-typescript-sdk/commit/4b31fa9b94e3c6f706746255496d0090b19b3e75))
+* **internal:** upgrade eslint ([7f94815](https://github.com/fashn-AI/fashn-typescript-sdk/commit/7f9481551c823c306e5f9ebb242f40e03b521da5))
+* mcp code tool explicit error message when missing a run function ([e56b9f3](https://github.com/fashn-AI/fashn-typescript-sdk/commit/e56b9f364827261fe1de425d11a5e3cc530bea9d))
+* **mcp:** add friendlier MCP code tool errors on incorrect method invocations ([1120d09](https://github.com/fashn-AI/fashn-typescript-sdk/commit/1120d09fd821898b60d0ef3fc28b0ba75c7516cb))
+* **mcp:** add line numbers to code tool errors ([f280320](https://github.com/fashn-AI/fashn-typescript-sdk/commit/f280320189f53ea7bd0e16caae62b431b25ae8a8))
+* **mcp:** clarify http auth error ([06bf5ba](https://github.com/fashn-AI/fashn-typescript-sdk/commit/06bf5ba10f13908244aa0afd3749f84896e1e88e))
+* **mcp:** update lockfile ([f7cee6a](https://github.com/fashn-AI/fashn-typescript-sdk/commit/f7cee6a94196b9132fa5cec78425807dfaa0b78a))
+* **mcp:** upgrade jq-web ([29b26e0](https://github.com/fashn-AI/fashn-typescript-sdk/commit/29b26e0aeed7dafb8e93e3f9b04f1a7b50ee3feb))
+* use latest @modelcontextprotocol/sdk ([1384527](https://github.com/fashn-AI/fashn-typescript-sdk/commit/1384527003049c216bf41ca257c8aad012f6291c))
+* use structured error when code execution tool errors ([aca970f](https://github.com/fashn-AI/fashn-typescript-sdk/commit/aca970f2c5985300280493c9a27a3c94de833dea))
+
+
+### Documentation
+
+* **mcp:** add a README button for one-click add to Cursor ([27777fa](https://github.com/fashn-AI/fashn-typescript-sdk/commit/27777fa693ac677622fd0c2ad2af5b479aa56782))
+* **mcp:** add a README link to add server to VS Code or Claude Code ([3cbf6d3](https://github.com/fashn-AI/fashn-typescript-sdk/commit/3cbf6d31455451da917623c834c7bc2ebcfd43b4))
+
 ## 0.11.1 (2025-10-16)
 
 Full Changelog: [v0.11.0...v0.11.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.11.0...v0.11.1)

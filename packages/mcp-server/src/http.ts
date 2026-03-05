@@ -2,16 +2,18 @@
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-
+import { ClientOptions } from 'fashn';
 import express from 'express';
-import { fromError } from 'zod-validation-error/v3';
-import { McpOptions, parseQueryOptions } from './options';
-import { ClientOptions, initMcpServer, newMcpServer } from './server';
-import { parseAuthHeaders } from './headers';
+import pino from 'pino';
+import pinoHttp from 'pino-http';
+import { getStainlessApiKey, parseClientAuthHeaders } from './auth';
+import { getLogger } from './logger';
+import { McpOptions } from './options';
+import { initMcpServer, newMcpServer } from './server';
 
-const newServer = ({
+const newServer = async ({
   clientOptions,
-  mcpOptions: defaultMcpOptions,
+  mcpOptions,
   req,
   res,
 }: {
@@ -19,43 +21,21 @@ const newServer = ({
   mcpOptions: McpOptions;
   req: express.Request;
   res: express.Response;
-}): McpServer | null => {
-  const server = newMcpServer();
+}): Promise<McpServer | null> => {
+  const stainlessApiKey = getStainlessApiKey(req, mcpOptions);
+  const server = await newMcpServer(stainlessApiKey);
 
-  let mcpOptions: McpOptions;
-  try {
-    mcpOptions = parseQueryOptions(defaultMcpOptions, req.query);
-  } catch (error) {
-    res.status(400).json({
-      jsonrpc: '2.0',
-      error: {
-        code: -32000,
-        message: `Invalid request: ${fromError(error)}`,
-      },
-    });
-    return null;
-  }
+  const authOptions = parseClientAuthHeaders(req, false);
 
-  try {
-    const authOptions = parseAuthHeaders(req);
-    initMcpServer({
-      server: server,
-      clientOptions: {
-        ...clientOptions,
-        ...authOptions,
-      },
-      mcpOptions,
-    });
-  } catch {
-    res.status(401).json({
-      jsonrpc: '2.0',
-      error: {
-        code: -32000,
-        message: 'Unauthorized',
-      },
-    });
-    return null;
-  }
+  await initMcpServer({
+    server: server,
+    mcpOptions: mcpOptions,
+    clientOptions: {
+      ...clientOptions,
+      ...authOptions,
+    },
+    stainlessApiKey: stainlessApiKey,
+  });
 
   return server;
 };
@@ -63,14 +43,11 @@ const newServer = ({
 const post =
   (options: { clientOptions: ClientOptions; mcpOptions: McpOptions }) =>
   async (req: express.Request, res: express.Response) => {
-    const server = newServer({ ...options, req, res });
+    const server = await newServer({ ...options, req, res });
     // If we return null, we already set the authorization error.
     if (server === null) return;
-    const transport = new StreamableHTTPServerTransport({
-      // Stateless server
-      sessionIdGenerator: undefined,
-    });
-    await server.connect(transport);
+    const transport = new StreamableHTTPServerTransport();
+    await server.connect(transport as any);
     await transport.handleRequest(req, res, req.body);
   };
 
@@ -94,17 +71,64 @@ const del = async (req: express.Request, res: express.Response) => {
   });
 };
 
+const redactHeaders = (headers: Record<string, any>) => {
+  const hiddenHeaders = /auth|cookie|key|token/i;
+  const filtered = { ...headers };
+  Object.keys(filtered).forEach((key) => {
+    if (hiddenHeaders.test(key)) {
+      filtered[key] = '[REDACTED]';
+    }
+  });
+  return filtered;
+};
+
 export const streamableHTTPApp = ({
   clientOptions = {},
-  mcpOptions = {},
+  mcpOptions,
 }: {
   clientOptions?: ClientOptions;
-  mcpOptions?: McpOptions;
+  mcpOptions: McpOptions;
 }): express.Express => {
   const app = express();
   app.set('query parser', 'extended');
   app.use(express.json());
+  app.use(
+    pinoHttp({
+      logger: getLogger(),
+      customLogLevel: (req, res) => {
+        if (res.statusCode >= 500) {
+          return 'error';
+        } else if (res.statusCode >= 400) {
+          return 'warn';
+        }
+        return 'info';
+      },
+      customSuccessMessage: function (req, res) {
+        return `Request ${req.method} to ${req.url} completed with status ${res.statusCode}`;
+      },
+      customErrorMessage: function (req, res, err) {
+        return `Request ${req.method} to ${req.url} errored with status ${res.statusCode}`;
+      },
+      serializers: {
+        req: pino.stdSerializers.wrapRequestSerializer((req) => {
+          return {
+            ...req,
+            headers: redactHeaders(req.raw.headers),
+          };
+        }),
+        res: pino.stdSerializers.wrapResponseSerializer((res) => {
+          return {
+            ...res,
+            headers: redactHeaders(res.headers),
+          };
+        }),
+      },
+    }),
+  );
 
+  app.get('/health', async (req: express.Request, res: express.Response) => {
+    res.status(200).send('OK');
+  });
   app.get('/', get);
   app.post('/', post({ clientOptions, mcpOptions }));
   app.delete('/', del);
@@ -112,16 +136,24 @@ export const streamableHTTPApp = ({
   return app;
 };
 
-export const launchStreamableHTTPServer = async (options: McpOptions, port: number | string | undefined) => {
-  const app = streamableHTTPApp({ mcpOptions: options });
+export const launchStreamableHTTPServer = async ({
+  mcpOptions,
+  port,
+}: {
+  mcpOptions: McpOptions;
+  port: number | string | undefined;
+}) => {
+  const app = streamableHTTPApp({ mcpOptions });
   const server = app.listen(port);
   const address = server.address();
 
+  const logger = getLogger();
+
   if (typeof address === 'string') {
-    console.error(`MCP Server running on streamable HTTP at ${address}`);
+    logger.info(`MCP Server running on streamable HTTP at ${address}`);
   } else if (address !== null) {
-    console.error(`MCP Server running on streamable HTTP on port ${address.port}`);
+    logger.info(`MCP Server running on streamable HTTP on port ${address.port}`);
   } else {
-    console.error(`MCP Server running on streamable HTTP on port ${port}`);
+    logger.info(`MCP Server running on streamable HTTP on port ${port}`);
   }
 };
