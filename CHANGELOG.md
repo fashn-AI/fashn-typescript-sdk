@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.13.0 (2026-03-09)
+
+Full Changelog: [v0.12.0...v0.13.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.12.0...v0.13.0)
+
+### Features
+
+* **api:** manual updates ([0ec693b](https://github.com/fashn-AI/fashn-typescript-sdk/commit/0ec693bfa6bd8534bf5e94563e6b50369da35f44))
+
+
+### Bug Fixes
+
+* **client:** preserve URL params already embedded in path ([e970911](https://github.com/fashn-AI/fashn-typescript-sdk/commit/e970911ec563b8adb17e6ef87b40f7e79cd20bbc))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([4744150](https://github.com/fashn-AI/fashn-typescript-sdk/commit/47441500584bd542681f4b4bf986ec6bb0c00226))
+* **mcp-server:** improve instructions ([38a8e6e](https://github.com/fashn-AI/fashn-typescript-sdk/commit/38a8e6e434e2ed65af548d544419703afece4568))
+
 ## 0.12.0 (2026-03-05)
 
 Full Changelog: [v0.11.1...v0.12.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.11.1...v0.12.0)
