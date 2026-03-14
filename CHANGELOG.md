@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.13.1 (2026-03-14)
+
+Full Changelog: [v0.13.0...v0.13.1](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.13.0...v0.13.1)
+
+### Chores
+
+* **internal:** bump @modelcontextprotocol/sdk, @hono/node-server, and minimatch ([003b4db](https://github.com/fashn-AI/fashn-typescript-sdk/commit/003b4db8eb8f21efa2576ec3f4ffeaa5611e16c5))
+* **internal:** make generated MCP servers compatible with Cloudflare worker environments ([954b319](https://github.com/fashn-AI/fashn-typescript-sdk/commit/954b31937721eaa6fcf41a2bf80babfaca1ca18a))
+* **internal:** support x-stainless-mcp-client-envs header in MCP servers ([7e94c06](https://github.com/fashn-AI/fashn-typescript-sdk/commit/7e94c062f4c52dd0ad50ef930fc6a58a2c9dfc3d))
+* **internal:** update dependencies to address dependabot vulnerabilities ([76cc049](https://github.com/fashn-AI/fashn-typescript-sdk/commit/76cc04944bbdeeb6d67645e2e888b8b229af31e1))
+
 ## 0.13.0 (2026-03-09)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.12.0...v0.13.0)
