@@ -37,10 +37,10 @@ const client = new Fashn({
 
 const response = await client.predictions.run({
   inputs: {
-    garment_image: 'https://example.com/garment.jpg',
     model_image: 'https://example.com/model.jpg',
+    product_image: 'https://example.com/garment.jpg',
   },
-  model_name: 'tryon-v1.6',
+  model_name: 'tryon-max',
 });
 
 console.log(response.id);
@@ -60,10 +60,10 @@ const client = new Fashn({
 
 const params: Fashn.PredictionRunParams = {
   inputs: {
-    garment_image: 'https://example.com/garment.jpg',
     model_image: 'https://example.com/model.jpg',
+    product_image: 'https://example.com/garment.jpg',
   },
-  model_name: 'tryon-v1.6',
+  model_name: 'tryon-max',
 };
 const response: Fashn.PredictionRunResponse = await client.predictions.run(params);
 ```
@@ -81,10 +81,10 @@ a subclass of `APIError` will be thrown:
 const response = await client.predictions
   .run({
     inputs: {
-      garment_image: 'https://example.com/garment.jpg',
       model_image: 'https://example.com/model.jpg',
+      product_image: 'https://example.com/garment.jpg',
     },
-    model_name: 'tryon-v1.6',
+    model_name: 'tryon-max',
   })
   .catch(async (err) => {
     if (err instanceof Fashn.APIError) {
@@ -127,8 +127,8 @@ const client = new Fashn({
 
 // Or, configure per-request:
 await client.predictions.run({
-  inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
-  model_name: 'tryon-v1.6',
+  inputs: { model_image: 'https://example.com/model.jpg', product_image: 'https://example.com/garment.jpg' },
+  model_name: 'tryon-max',
 }, {
   maxRetries: 5,
 });
@@ -147,8 +147,8 @@ const client = new Fashn({
 
 // Override per-request:
 await client.predictions.run({
-  inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
-  model_name: 'tryon-v1.6',
+  inputs: { model_image: 'https://example.com/model.jpg', product_image: 'https://example.com/garment.jpg' },
+  model_name: 'tryon-max',
 }, {
   timeout: 5 * 1000,
 });
@@ -175,10 +175,10 @@ const client = new Fashn();
 const response = await client.predictions
   .run({
     inputs: {
-      garment_image: 'https://example.com/garment.jpg',
       model_image: 'https://example.com/model.jpg',
+      product_image: 'https://example.com/garment.jpg',
     },
-    model_name: 'tryon-v1.6',
+    model_name: 'tryon-max',
   })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
@@ -187,10 +187,10 @@ console.log(response.statusText); // access the underlying Response object
 const { data: response, response: raw } = await client.predictions
   .run({
     inputs: {
-      garment_image: 'https://example.com/garment.jpg',
       model_image: 'https://example.com/model.jpg',
+      product_image: 'https://example.com/garment.jpg',
     },
-    model_name: 'tryon-v1.6',
+    model_name: 'tryon-max',
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));

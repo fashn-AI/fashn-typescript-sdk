@@ -26,8 +26,8 @@ For example:
 \`\`\`
 async function run(client) {
   const response = await client.predictions.run({
-    inputs: { garment_image: 'https://example.com/garment.jpg', model_image: 'https://example.com/model.jpg' },
-    model_name: 'tryon-v1.6',
+    inputs: { model_image: 'https://example.com/model.jpg', product_image: 'https://example.com/garment.jpg' },
+    model_name: 'tryon-max',
   });
 
   console.log(response.id);
