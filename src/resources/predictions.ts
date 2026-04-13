@@ -1117,6 +1117,18 @@ export declare namespace PredictionRunParams {
       duration?: 5 | 10;
 
       /**
+       * Optional image to use as the final frame of the generated video. When provided,
+       * the video smoothly transitions from the `image` (start frame) to `end_image`
+       * (end frame) over the clip duration.
+       *
+       * Only supported with `resolution: "1080p"`.
+       *
+       * Base64 images must include the proper prefix (e.g.,
+       * `data:image/jpg;base64,<YOUR_BASE64>`).
+       */
+      end_image?: string;
+
+      /**
        * Optional cues to avoid undesirable motion or framing.
        */
       negative_prompt?: string;

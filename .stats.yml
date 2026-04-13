@@ -1,4 +1,4 @@
 configured_endpoints: 2
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/fashn%2Ffashn-sdk-bce0e6c4dfce389c1bfafe9f37e5355f7c04377511d8a602b044bdf4074a421b.yml
-openapi_spec_hash: 6469ac566c9e5abd890668e97aeebf1b
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/fashn%2Ffashn-sdk-ddbebf46f6afa65a32b27ec779c191397d923b62a3ed0e6d2ba4471be70f6cd7.yml
+openapi_spec_hash: 06d789906d61e3fefdfb789d532da5fe
 config_hash: 6f35cc512a77534117eeac956e613816
