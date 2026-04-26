@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.14.0 (2026-04-26)
+
+Full Changelog: [v0.13.0...v0.14.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.13.0...v0.14.0)
+
+### Features
+
+* **api:** api update ([1c45fcf](https://github.com/fashn-AI/fashn-typescript-sdk/commit/1c45fcf3cfe518588c0cd16ecce150c0fd6a4cc6))
+* **api:** api update ([c1d2de2](https://github.com/fashn-AI/fashn-typescript-sdk/commit/c1d2de2661f2ec7f7003dcd04e0a6e3559504ab7))
+
+
+### Bug Fixes
+
+* **go:** properly generate examples for body root unions ([a9f936a](https://github.com/fashn-AI/fashn-typescript-sdk/commit/a9f936a0ce0b1f6cb3f034027fffbbaf2f7cabf5))
+* **internal:** gitignore generated `oidc` dir ([20a84fe](https://github.com/fashn-AI/fashn-typescript-sdk/commit/20a84fed4bf9063a883378f15e42a1593eea47a5))
+
+
+### Chores
+
+* **ci:** escape input path in publish-npm workflow ([87b3e28](https://github.com/fashn-AI/fashn-typescript-sdk/commit/87b3e285269a09b33655ac1dfc0ee7ef28104b6a))
+* **ci:** skip lint on metadata-only changes ([a11ee3a](https://github.com/fashn-AI/fashn-typescript-sdk/commit/a11ee3a1b13f15308a3d41bd3fe04e516b5e9704))
+* **internal:** bump @modelcontextprotocol/sdk, @hono/node-server, and minimatch ([003b4db](https://github.com/fashn-AI/fashn-typescript-sdk/commit/003b4db8eb8f21efa2576ec3f4ffeaa5611e16c5))
+* **internal:** codegen related update ([fc556b7](https://github.com/fashn-AI/fashn-typescript-sdk/commit/fc556b7fa054e84c2d691dc4031ea707f2024c60))
+* **internal:** codegen related update ([b035021](https://github.com/fashn-AI/fashn-typescript-sdk/commit/b0350218cace62e9d6e09feb805081827ff38182))
+* **internal:** codegen related update ([f36982d](https://github.com/fashn-AI/fashn-typescript-sdk/commit/f36982d698013fca5f606ca16c8175ebde5f8ae2))
+* **internal:** fix MCP docker image builds in yarn projects ([eae4bb6](https://github.com/fashn-AI/fashn-typescript-sdk/commit/eae4bb6270b4361efc737cc2c1469f94be247de6))
+* **internal:** fix MCP server import ordering ([9cd123f](https://github.com/fashn-AI/fashn-typescript-sdk/commit/9cd123f38c7349ea754d2adadbb411ffeef99f16))
+* **internal:** fix MCP server TS errors that occur with required client options ([7801653](https://github.com/fashn-AI/fashn-typescript-sdk/commit/780165379e43287465336902be1db3b60316627b))
+* **internal:** improve local docs search for MCP servers ([6f05d28](https://github.com/fashn-AI/fashn-typescript-sdk/commit/6f05d28f0adf9641d231589dd113983aaff64259))
+* **internal:** improve local docs search for MCP servers ([dee7e64](https://github.com/fashn-AI/fashn-typescript-sdk/commit/dee7e644a50d810ec342037209dc9cdaa911ac88))
+* **internal:** make generated MCP servers compatible with Cloudflare worker environments ([954b319](https://github.com/fashn-AI/fashn-typescript-sdk/commit/954b31937721eaa6fcf41a2bf80babfaca1ca18a))
+* **internal:** more robust bootstrap script ([60e6d28](https://github.com/fashn-AI/fashn-typescript-sdk/commit/60e6d288f1c9bdac3f584422611db26a38c52b75))
+* **internal:** show error causes in MCP servers when running in local mode ([fbf6c27](https://github.com/fashn-AI/fashn-typescript-sdk/commit/fbf6c27e4615facfd0497305deb159497bfb868d))
+* **internal:** support custom-instructions-path flag in MCP servers ([22d4962](https://github.com/fashn-AI/fashn-typescript-sdk/commit/22d4962aa9462e5d6a8b4b128857e2a55d34d043))
+* **internal:** support local docs search in MCP servers ([525f106](https://github.com/fashn-AI/fashn-typescript-sdk/commit/525f106e4967b2cfef564b955549d10590255804))
+* **internal:** support type annotations when running MCP in local execution mode ([80d4290](https://github.com/fashn-AI/fashn-typescript-sdk/commit/80d4290b4400b082c38b7d2bfff628df6649e894))
+* **internal:** support x-stainless-mcp-client-envs header in MCP servers ([7e94c06](https://github.com/fashn-AI/fashn-typescript-sdk/commit/7e94c062f4c52dd0ad50ef930fc6a58a2c9dfc3d))
+* **internal:** support x-stainless-mcp-client-permissions headers in MCP servers ([8a89be6](https://github.com/fashn-AI/fashn-typescript-sdk/commit/8a89be6761c35abb106dcfcf4ef54d71bb71d50d))
+* **internal:** tweak CI branches ([c41604c](https://github.com/fashn-AI/fashn-typescript-sdk/commit/c41604c0c2ed791573e30ae681e58412b2e6c72d))
+* **internal:** update dependencies to address dependabot vulnerabilities ([76cc049](https://github.com/fashn-AI/fashn-typescript-sdk/commit/76cc04944bbdeeb6d67645e2e888b8b229af31e1))
+* **internal:** update docs ordering ([0bb2686](https://github.com/fashn-AI/fashn-typescript-sdk/commit/0bb2686ef4f2b49d96ef0d8d4949ef1074af6ae1))
+* **internal:** update gitignore ([4946281](https://github.com/fashn-AI/fashn-typescript-sdk/commit/4946281612ac223eec1130fa7714ca95b7f8a7e5))
+* **internal:** use link instead of file in MCP server package.json files ([2d5f5dd](https://github.com/fashn-AI/fashn-typescript-sdk/commit/2d5f5dddd219d0049de04864ff459313c91e6f9a))
+* **mcp-server:** add support for session id, forward client info ([a5f0540](https://github.com/fashn-AI/fashn-typescript-sdk/commit/a5f0540527e93916e96621e71473c9faffc0541c))
+* **mcp-server:** increase local docs search result count from 5 to 10 ([e279e39](https://github.com/fashn-AI/fashn-typescript-sdk/commit/e279e3902331199a3b1bb123401ab48e5cb257d8))
+* **mcp-server:** log client info ([3e1e75c](https://github.com/fashn-AI/fashn-typescript-sdk/commit/3e1e75c3176401ba1b5856de92532c794a126a0c))
+* restructure docs search code ([3dee1ac](https://github.com/fashn-AI/fashn-typescript-sdk/commit/3dee1ac11c63b9de470860c6f076cfe3a0788f51))
+* update CLI documentation ([3e7b090](https://github.com/fashn-AI/fashn-typescript-sdk/commit/3e7b090e46215d328a3699fcb79a09b479130a0f))
+
 ## 0.13.0 (2026-03-09)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.12.0...v0.13.0)

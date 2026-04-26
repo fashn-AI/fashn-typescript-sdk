@@ -18,9 +18,9 @@ export class Predictions extends APIResource {
    * Submit a prediction request for AI-powered fashion processing. Supports multiple
    * model types including:
    *
-   * - Virtual try-on (tryon-v1.6)
+   * - Try-on max (tryon-max)
+   * - Virtual try-on v1.6 (tryon-v1.6)
    * - Model creation (model-create)
-   * - Model variation (model-variation)
    * - Model swap (model-swap)
    * - Product to model (product-to-model)
    * - Face to model (face-to-model)
@@ -35,10 +35,10 @@ export class Predictions extends APIResource {
    * ```ts
    * const response = await client.predictions.run({
    *   inputs: {
+   *     product_image: 'https://example.com/garment.jpg',
    *     model_image: 'https://example.com/model.jpg',
-   *     garment_image: 'https://example.com/garment.jpg',
    *   },
-   *   model_name: 'tryon-v1.6',
+   *   model_name: 'tryon-max',
    * });
    * ```
    */
@@ -268,13 +268,6 @@ export namespace PredictionStatusResponse {
      * - _Cause_: Body pose not detectable in model or garment image
      * - _Solution_: Improve image quality following model photo guidelines
      *
-     * **LoRALoadError** - Failed to load LoRA weights (model-create, model-variation,
-     * model-swap only)
-     *
-     * - _Cause_: Cannot download or load LoRA file
-     * - _Solution_: Ensure URL is public, file is valid .safetensors under 256MB,
-     *   compatible with FLUX.1-dev
-     *
      * **InputValidationError** - Invalid parameter combination (reframe only)
      *
      * - _Cause_: Missing required parameters or invalid values for selected mode
@@ -320,7 +313,6 @@ export namespace PredictionStatusResponse {
       | 'ImageLoadError'
       | 'ContentModerationError'
       | 'PoseError'
-      | 'LoRALoadError'
       | 'InputValidationError'
       | 'PipelineError'
       | 'ThirdPartyError'
@@ -331,11 +323,11 @@ export namespace PredictionStatusResponse {
 }
 
 export type PredictionRunParams =
+  | PredictionRunParams.TryOnMaxRequest
   | PredictionRunParams.TryOnRequest
   | PredictionRunParams.ProductToModelRequest
   | PredictionRunParams.FaceToModelRequest
   | PredictionRunParams.ModelCreateRequest
-  | PredictionRunParams.ModelVariationRequest
   | PredictionRunParams.ModelSwapRequest
   | PredictionRunParams.ReframeRequest
   | PredictionRunParams.BackgroundChangeRequest
@@ -344,6 +336,102 @@ export type PredictionRunParams =
   | PredictionRunParams.EditRequest;
 
 export declare namespace PredictionRunParams {
+  export interface TryOnMaxRequest {
+    /**
+     * Body param
+     */
+    inputs: TryOnMaxRequest.Inputs;
+
+    /**
+     * Body param: Premium virtual try-on built for AI fashion photoshoots and
+     * publishable e-commerce content. Places products onto model images with enhanced
+     * fidelity, producing images suitable for PDPs, catalogs, and marketing assets.
+     */
+    model_name: 'tryon-max';
+
+    /**
+     * Query param: Optional webhook URL to receive completion notifications
+     */
+    webhook_url?: string;
+  }
+
+  export namespace TryOnMaxRequest {
+    export interface Inputs {
+      /**
+       * URL or base64 encoded image of the person to wear the product. The try-on
+       * process preserves the model's identity, pose, and styling while seamlessly
+       * integrating the product. Base64 images must include the proper prefix (e.g.,
+       * data:image/jpg;base64,<YOUR_BASE64>)
+       */
+      model_image: string;
+
+      /**
+       * URL or base64 encoded image of the product (garment, accessory, etc.) to place
+       * on the model. Base64 images must include the proper prefix (e.g.,
+       * data:image/jpg;base64,<YOUR_BASE64>)
+       */
+      product_image: string;
+
+      /**
+       * Optional aspect ratio for the output image.
+       */
+      aspect_ratio?: '21:9' | '1:1' | '4:3' | '3:2' | '2:3' | '5:4' | '4:5' | '3:4' | '16:9' | '9:16';
+
+      /**
+       * Sets the generation quality level. 'quality' produces the most detailed and
+       * realistic output but takes longer to process and costs more credits. 'fast'
+       * prioritizes speed and lower cost.
+       */
+      generation_mode?: 'balanced' | 'quality';
+
+      /**
+       * Number of images to generate in a single run. Image generation has a random
+       * element in it, so trying multiple images at once increases the chances of
+       * getting a good result.
+       */
+      num_images?: number;
+
+      /**
+       * Specifies the desired output image format.
+       *
+       * - `png`: Delivers the highest quality image, ideal for use cases such as content
+       *   creation where quality is paramount.
+       * - `jpeg`: Provides a faster response with a slightly compressed image, more
+       *   suitable for real-time applications.
+       */
+      output_format?: 'png' | 'jpeg';
+
+      /**
+       * Optional instructions to customize the try-on result. Use this to adjust how the
+       * product is worn or make minor styling changes.
+       *
+       * **Examples:** "remove scarf", "tuck in shirt", "roll up sleeves", "open jacket"
+       */
+      prompt?: string;
+
+      /**
+       * Resolution setting for the output image.
+       */
+      resolution?: '1k' | '2k' | '4k';
+
+      /**
+       * When set to `true`, the API will return the generated image as a base64-encoded
+       * string instead of a CDN URL. The base64 string will be prefixed according to the
+       * `output_format` (e.g., `data:image/png;base64,...` or
+       * `data:image/jpeg;base64,...`). This option offers enhanced privacy as
+       * user-generated outputs are not stored on our servers when `return_base64` is
+       * enabled.
+       */
+      return_base64?: boolean;
+
+      /**
+       * Sets random operations to a fixed state. Use the same seed to reproduce results
+       * with the same inputs, or different seed to force different results.
+       */
+      seed?: number;
+    }
+  }
+
   export interface TryOnRequest {
     /**
      * Body param
@@ -507,6 +595,13 @@ export declare namespace PredictionRunParams {
       aspect_ratio?: '1:1' | '2:3' | '3:4' | '4:5' | '5:4' | '4:3' | '3:2' | '16:9' | '9:16';
 
       /**
+       * Sets the generation quality level. 'quality' produces the most detailed and
+       * realistic output but takes longer to process and costs more credits. 'fast'
+       * prioritizes speed and lower cost.
+       */
+      generation_mode?: 'fast' | 'balanced' | 'quality';
+
+      /**
        * Optional URL or base64 of an inspiration image to guide pose, environment, and
        * lighting while keeping the final edit product-centric.
        */
@@ -544,7 +639,7 @@ export declare namespace PredictionRunParams {
       /**
        * Resolution setting for the output image.
        */
-      resolution?: '1k' | '4k';
+      resolution?: '1k' | '2k' | '4k';
 
       /**
        * When set to `true`, the API will return the generated image as a base64-encoded
@@ -606,6 +701,18 @@ export declare namespace PredictionRunParams {
       aspect_ratio?: '1:1' | '4:5' | '3:4' | '2:3' | '9:16';
 
       /**
+       * Sets the generation quality level. 'quality' produces the most detailed and
+       * realistic output but takes longer to process and costs more credits. 'fast'
+       * prioritizes speed and lower cost.
+       */
+      generation_mode?: 'fast' | 'balanced' | 'quality';
+
+      /**
+       * Number of images to generate in a single run.
+       */
+      num_images?: number;
+
+      /**
        * Specifies the output image format.
        *
        * - `png` - PNG format, original quality
@@ -625,6 +732,11 @@ export declare namespace PredictionRunParams {
        * **Default:** Empty string
        */
       prompt?: string;
+
+      /**
+       * Resolution setting for the output image.
+       */
+      resolution?: '1k' | '2k' | '4k';
 
       /**
        * When set to `true`, the API will return the generated image as a base64-encoded
@@ -697,10 +809,29 @@ export declare namespace PredictionRunParams {
       aspect_ratio?: '1:1' | '2:3' | '3:4' | '4:5' | '5:4' | '4:3' | '3:2' | '16:9' | '9:16';
 
       /**
-       * Disable prompt enhancement. When true, the prompt will be used as is, or a
-       * default prompt will be used if no prompt is provided.
+       * Optional face reference image to guide facial features in the generated model.
+       * When provided, the generated person will resemble the face in this image.
+       *
+       * Base64 images must include the proper prefix (e.g.,
+       * data:image/jpg;base64,<YOUR_BASE64>)
        */
-      disable_prompt_enhancement?: boolean;
+      face_reference?: string;
+
+      /**
+       * Controls how the face reference is applied.
+       *
+       * - `match_base` adapts the reference face to match the base image's style and
+       *   lighting.
+       * - `match_reference` preserves the reference face as closely as possible.
+       */
+      face_reference_mode?: 'match_base' | 'match_reference';
+
+      /**
+       * Sets the generation quality level. 'quality' produces the most detailed and
+       * realistic output but takes longer to process and costs more credits. 'fast'
+       * prioritizes speed and lower cost.
+       */
+      generation_mode?: 'fast' | 'balanced' | 'quality';
 
       /**
        * Optional reference image that guides the generation process. The model extracts
@@ -708,9 +839,10 @@ export declare namespace PredictionRunParams {
        *
        * Processing Behavior:
        *
-       * - Aspect Ratio: Output automatically matches the reference image's dimensions.
-       * - Guidance Type: Controlled by the reference_type parameter (pose or silhouette)
-       * - Image Processing: Automatically resized while preserving aspect ratio
+       * - Aspect Ratio: When image_reference is provided and aspect_ratio is omitted,
+       *   the output matches the reference image's dimensions. If aspect_ratio is
+       *   explicitly set, it overrides the reference image's proportions.
+       * - Image Processing: Automatically resized while preserving aspect ratio.
        *
        * Base64 images must include the proper prefix (e.g.,
        * data:image/jpg;base64,<YOUR_BASE64>)
@@ -718,12 +850,9 @@ export declare namespace PredictionRunParams {
       image_reference?: string;
 
       /**
-       * URL to a FLUX-based LoRA weights file (.safetensors) for custom identity
-       * generation. When provided, the LoRA will be loaded and applied during generation
-       * to maintain consistent character appearance across generations. Must be
-       * FLUX-compatible LoRA weights in .safetensors format, under 256MB.
+       * Number of images to generate.
        */
-      lora_url?: string;
+      num_images?: number;
 
       /**
        * Specifies the desired output image format.
@@ -736,77 +865,9 @@ export declare namespace PredictionRunParams {
       output_format?: 'png' | 'jpeg';
 
       /**
-       * Type of reference to use when image_reference is provided.
-       *
-       * - `pose` matches the body position and stance from the reference image.
-       * - `silhouette` matches the outline and shape from the reference image.
-       *
-       * **Default is applied only if image_reference is provided**
+       * Resolution setting for the output image.
        */
-      reference_type?: 'pose' | 'silhouette';
-
-      /**
-       * When set to `true`, the API will return the generated image as a base64-encoded
-       * string instead of a CDN URL. The base64 string will be prefixed according to the
-       * `output_format` (e.g., `data:image/png;base64,...` or
-       * `data:image/jpeg;base64,...`). This option offers enhanced privacy as
-       * user-generated outputs are not stored on our servers when `return_base64` is
-       * enabled.
-       */
-      return_base64?: boolean;
-
-      /**
-       * Random seed for reproducible results
-       */
-      seed?: number;
-    }
-  }
-
-  export interface ModelVariationRequest {
-    /**
-     * Body param
-     */
-    inputs: ModelVariationRequest.Inputs;
-
-    /**
-     * Body param: Model variation endpoint for creating variations from existing model
-     * images
-     */
-    model_name: 'model-variation';
-
-    /**
-     * Query param: Optional webhook URL to receive completion notifications
-     */
-    webhook_url?: string;
-  }
-
-  export namespace ModelVariationRequest {
-    export interface Inputs {
-      /**
-       * Source fashion model image to create variations from. The variation will
-       * maintain the core composition while introducing controlled modifications. Base64
-       * images must include the proper prefix (e.g.,
-       * data:image/jpg;base64,<YOUR_BASE64>)
-       */
-      model_image: string;
-
-      /**
-       * URL to a FLUX-based LoRA weights file (.safetensors) for custom identity
-       * generation. When provided, the LoRA will be loaded and applied during generation
-       * to maintain consistent character appearance across generations. Must be
-       * FLUX-compatible LoRA weights in .safetensors format, under 256MB.
-       */
-      lora_url?: string;
-
-      /**
-       * Specifies the desired output image format.
-       *
-       * - `png`: Delivers the highest quality image, ideal for use cases such as content
-       *   creation where quality is paramount.
-       * - `jpeg`: Provides a faster response with a slightly compressed image, more
-       *   suitable for real-time applications.
-       */
-      output_format?: 'png' | 'jpeg';
+      resolution?: '1k' | '2k' | '4k';
 
       /**
        * When set to `true`, the API will return the generated image as a base64-encoded
@@ -823,16 +884,6 @@ export declare namespace PredictionRunParams {
        * with the same inputs, or different seed to force different results.
        */
       seed?: number;
-
-      /**
-       * Controls the intensity of variations applied to the source image.
-       *
-       * - `subtle` - Minor adjustments that preserve most of the original
-       *   characteristics while introducing small variations.
-       * - `strong` - More significant modifications that create noticeable differences
-       *   while maintaining the core composition.
-       */
-      variation_strength?: 'subtle' | 'strong';
     }
   }
 
@@ -865,29 +916,39 @@ export declare namespace PredictionRunParams {
       model_image: string;
 
       /**
-       * Controls whether the background should be modified according to the prompt or
-       * preserved from the original image. When enabled, include background descriptions
-       * in your prompt.
+       * Optional aspect ratio for the output image.
+       */
+      aspect_ratio?: '21:9' | '1:1' | '4:3' | '3:2' | '2:3' | '5:4' | '4:5' | '3:4' | '16:9' | '9:16';
+
+      /**
+       * Optional face reference image to guide facial features of the replacement
+       * person. When provided, the new person will resemble the face in this image.
        *
-       * - `true` - Background will be changed according to the prompt description.
-       * - `false` - Original background will be preserved exactly as in the source
-       *   image.
+       * Base64 images must include the proper prefix (e.g.,
+       * data:image/jpg;base64,<YOUR_BASE64>)
        */
-      background_change?: boolean;
+      face_reference?: string;
 
       /**
-       * Disable prompt enhancement. When true, the prompt will be used exactly as
-       * provided, or a default prompt will be used if no prompt is provided.
+       * Controls how the face reference is applied.
+       *
+       * - `match_base` adapts the reference face to match the base image's style and
+       *   lighting.
+       * - `match_reference` preserves the reference face as closely as possible.
        */
-      disable_prompt_enhancement?: boolean;
+      face_reference_mode?: 'match_base' | 'match_reference';
 
       /**
-       * URL to a FLUX-based LoRA weights file (.safetensors) for custom identity
-       * generation. When provided, the LoRA will be loaded and applied during generation
-       * to maintain consistent character appearance across generations. Must be
-       * FLUX-compatible LoRA weights in .safetensors format, under 256MB.
+       * Sets the generation quality level. 'quality' produces the most detailed and
+       * realistic output but takes longer to process and costs more credits. 'fast'
+       * prioritizes speed and lower cost.
        */
-      lora_url?: string;
+      generation_mode?: 'fast' | 'balanced' | 'quality';
+
+      /**
+       * Number of images to generate.
+       */
+      num_images?: number;
 
       /**
        * Specifies the desired output image format.
@@ -906,6 +967,11 @@ export declare namespace PredictionRunParams {
        * **Default: Empty string (Random identity change)**
        */
       prompt?: string;
+
+      /**
+       * Resolution setting for the output image.
+       */
+      resolution?: '1k' | '2k' | '4k';
 
       /**
        * When set to `true`, the API will return the generated image as a base64-encoded
@@ -990,6 +1056,13 @@ export declare namespace PredictionRunParams {
       image: string;
 
       /**
+       * Sets the generation quality level. 'quality' produces the most detailed and
+       * realistic output but takes longer to process and costs more credits. 'fast'
+       * prioritizes speed and lower cost.
+       */
+      generation_mode?: 'fast' | 'balanced' | 'quality';
+
+      /**
        * Number of images to generate in a single run. Image generation has a random
        * element in it, so trying multiple images at once increases the chances of
        * getting a good result.
@@ -1058,10 +1131,16 @@ export declare namespace PredictionRunParams {
       prompt: string;
 
       /**
-       * Disable prompt enhancement for the background description. When `true`, the
-       * background prompt will be used exactly as provided.
+       * Sets the generation quality level. 'quality' produces the most detailed and
+       * realistic output but takes longer to process and costs more credits. 'fast'
+       * prioritizes speed and lower cost.
        */
-      disable_prompt_enhancement?: boolean;
+      generation_mode?: 'fast' | 'balanced' | 'quality';
+
+      /**
+       * Number of images to generate in a single run.
+       */
+      num_images?: number;
 
       /**
        * Specifies the output image format.
@@ -1072,6 +1151,11 @@ export declare namespace PredictionRunParams {
        *   suitable for real-time applications.
        */
       output_format?: 'png' | 'jpeg';
+
+      /**
+       * Resolution setting for the output image.
+       */
+      resolution?: '1k' | '2k' | '4k';
 
       /**
        * When set to `true`, the API will return the generated image as a base64-encoded
@@ -1163,6 +1247,18 @@ export declare namespace PredictionRunParams {
       duration?: 5 | 10;
 
       /**
+       * Optional image to use as the final frame of the generated video. When provided,
+       * the video smoothly transitions from the `image` (start frame) to `end_image`
+       * (end frame) over the clip duration.
+       *
+       * Only supported with `resolution: "1080p"`.
+       *
+       * Base64 images must include the proper prefix (e.g.,
+       * `data:image/jpg;base64,<YOUR_BASE64>`).
+       */
+      end_image?: string;
+
+      /**
        * Optional cues to avoid undesirable motion or framing.
        */
       negative_prompt?: string;
@@ -1179,6 +1275,12 @@ export declare namespace PredictionRunParams {
        * Target video resolution used by the internal video engine.
        */
       resolution?: '480p' | '720p' | '1080p';
+
+      /**
+       * Sets random operations to a fixed state. Use the same seed to reproduce results
+       * with the same inputs, or different seed to force different results.
+       */
+      seed?: number;
     }
   }
 
@@ -1221,6 +1323,18 @@ export declare namespace PredictionRunParams {
       prompt: string;
 
       /**
+       * Optional aspect ratio for the output image.
+       */
+      aspect_ratio?: '21:9' | '1:1' | '4:3' | '3:2' | '2:3' | '5:4' | '4:5' | '3:4' | '16:9' | '9:16';
+
+      /**
+       * Sets the generation quality level. 'quality' produces the most detailed and
+       * realistic output but takes longer to process and costs more credits. 'fast'
+       * prioritizes speed and lower cost.
+       */
+      generation_mode?: 'fast' | 'balanced' | 'quality';
+
+      /**
        * Optional URL or base64 of a context image to guide the edit. This image provides
        * additional visual context that influences how the edit is applied.
        *
@@ -1259,7 +1373,7 @@ export declare namespace PredictionRunParams {
       /**
        * Resolution setting for the output image.
        */
-      resolution?: '1k' | '4k';
+      resolution?: '1k' | '2k' | '4k';
 
       /**
        * When set to `true`, the API will return the generated image as a base64-encoded
