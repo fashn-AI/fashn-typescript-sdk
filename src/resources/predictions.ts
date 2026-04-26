@@ -43,7 +43,7 @@ export class Predictions extends APIResource {
    * ```
    */
   run(params: PredictionRunParams, options?: RequestOptions): APIPromise<PredictionRunResponse> {
-    const { webhook_url, ...body } = params;
+    const { webhook_url, ...body } = params
     return this._client.post('/v1/run', { query: { webhook_url }, body, ...options });
   }
 
@@ -309,31 +309,12 @@ export namespace PredictionStatusResponse {
      * - _Cause_: Prediction polling timed out
      * - _Solution_: Retry request or increase the timeout parameter
      */
-    name:
-      | 'ImageLoadError'
-      | 'ContentModerationError'
-      | 'PoseError'
-      | 'InputValidationError'
-      | 'PipelineError'
-      | 'ThirdPartyError'
-      | '3rdPartyProviderError'
-      | 'InternalServerError'
-      | 'PollingTimeout';
+    name:  'ImageLoadError' | 'ContentModerationError' | 'PoseError' | 'InputValidationError' | 'PipelineError' | 'ThirdPartyError' | '3rdPartyProviderError' | 'InternalServerError'
+    | 'PollingTimeout';
   }
 }
 
-export type PredictionRunParams =
-  | PredictionRunParams.TryOnMaxRequest
-  | PredictionRunParams.TryOnRequest
-  | PredictionRunParams.ProductToModelRequest
-  | PredictionRunParams.FaceToModelRequest
-  | PredictionRunParams.ModelCreateRequest
-  | PredictionRunParams.ModelSwapRequest
-  | PredictionRunParams.ReframeRequest
-  | PredictionRunParams.BackgroundChangeRequest
-  | PredictionRunParams.BackgroundRemoveRequest
-  | PredictionRunParams.ImageToVideoRequest
-  | PredictionRunParams.EditRequest;
+export type PredictionRunParams = PredictionRunParams.TryOnMaxRequest | PredictionRunParams.TryOnRequest | PredictionRunParams.ProductToModelRequest | PredictionRunParams.FaceToModelRequest | PredictionRunParams.ModelCreateRequest | PredictionRunParams.ModelSwapRequest | PredictionRunParams.ReframeRequest | PredictionRunParams.BackgroundChangeRequest | PredictionRunParams.BackgroundRemoveRequest | PredictionRunParams.ImageToVideoRequest | PredictionRunParams.EditRequest
 
 export declare namespace PredictionRunParams {
   export interface TryOnMaxRequest {
