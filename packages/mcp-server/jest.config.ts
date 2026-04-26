@@ -10,7 +10,9 @@ const config: JestConfigWithTsJest = {
     '^fashn-mcp$': '<rootDir>/src/index.ts',
     '^fashn-mcp/(.*)$': '<rootDir>/src/$1',
   },
-  modulePathIgnorePatterns: ['<rootDir>/dist/'],
+  modulePathIgnorePatterns: [
+    '<rootDir>/dist/',
+  ],
   testPathIgnorePatterns: ['scripts'],
 };
 
