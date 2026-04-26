@@ -65,29 +65,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     ],
     response: '{ id: string; error: string; }',
     perLanguage: {
-      cli: {
-        method: 'predictions run',
+      typescript: {
+        method: 'client.predictions.run',
         example:
-          "fashn predictions run \\\n  --api-key 'My API Key' \\\n  --inputs '{model_image: https://example.com/model.jpg, product_image: https://example.com/garment.jpg}' \\\n  --model-name tryon-max",
-      },
-      go: {
-        method: 'client.Predictions.Run',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/stainless-sdks/fashn-sdk-go"\n\t"github.com/stainless-sdks/fashn-sdk-go/option"\n)\n\nfunc main() {\n\tclient := fashn.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Predictions.Run(context.TODO(), fashn.PredictionRunParams{\n\t\tOfTryonMax: &fashn.PredictionRunParamsBodyTryonMax{\n\t\t\tInputs: fashn.PredictionRunParamsBodyTryonMaxInputs{\n\t\t\t\tModelImage:   "https://example.com/model.jpg",\n\t\t\t\tProductImage: "https://example.com/garment.jpg",\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.fashn.ai/v1/run \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $FASHN_API_KEY" \\\n    -d \'{\n          "inputs": {\n            "model_image": "https://example.com/model.jpg",\n            "product_image": "https://example.com/garment.jpg"\n          },\n          "model_name": "tryon-max"\n        }\'',
+          "import Fashn from 'fashn';\n\nconst client = new Fashn({\n  apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.predictions.run({\n  inputs: {\n    product_image: 'https://example.com/garment.jpg',\n    model_image: 'https://example.com/model.jpg',\n  },\n  model_name: 'tryon-max',\n});\n\nconsole.log(response.id);",
       },
       python: {
         method: 'predictions.run',
         example:
           'import os\nfrom fashn import Fashn\n\nclient = Fashn(\n    api_key=os.environ.get("FASHN_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.predictions.run(\n    inputs={\n        "product_image": "https://example.com/garment.jpg",\n        "model_image": "https://example.com/model.jpg",\n    },\n    model_name="tryon-max",\n)\nprint(response.id)',
       },
-      typescript: {
-        method: 'client.predictions.run',
+      go: {
+        method: 'client.Predictions.Run',
         example:
-          "import Fashn from 'fashn';\n\nconst client = new Fashn({\n  apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.predictions.run({\n  inputs: {\n    product_image: 'https://example.com/garment.jpg',\n    model_image: 'https://example.com/model.jpg',\n  },\n  model_name: 'tryon-max',\n});\n\nconsole.log(response.id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/stainless-sdks/fashn-sdk-go"\n\t"github.com/stainless-sdks/fashn-sdk-go/option"\n)\n\nfunc main() {\n\tclient := fashn.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Predictions.Run(context.TODO(), fashn.PredictionRunParams{\n\t\tOfTryonMax: &fashn.PredictionRunParamsBodyTryonMax{\n\t\t\tInputs: fashn.PredictionRunParamsBodyTryonMaxInputs{\n\t\t\t\tModelImage:   "https://example.com/model.jpg",\n\t\t\t\tProductImage: "https://example.com/garment.jpg",\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
+      },
+      cli: {
+        method: 'predictions run',
+        example:
+          "fashn predictions run \\\n  --api-key 'My API Key' \\\n  --inputs '{model_image: https://example.com/model.jpg, product_image: https://example.com/garment.jpg}' \\\n  --model-name tryon-max",
+      },
+      http: {
+        example:
+          'curl https://api.fashn.ai/v1/run \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $FASHN_API_KEY" \\\n    -d \'{\n          "inputs": {\n            "model_image": "https://example.com/model.jpg",\n            "product_image": "https://example.com/garment.jpg"\n          },\n          "model_name": "tryon-max"\n        }\'',
       },
     },
   },
@@ -106,28 +106,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## status\n\n`client.predictions.status(id: string): { id: string; error: object; status: 'starting' | 'in_queue' | 'processing' | 'completed' | 'failed' | 'canceled' | 'time_out'; output?: string[] | string[]; }`\n\n**get** `/v1/status/{id}`\n\nPoll for the status of a specific prediction using its ID. Use this endpoint to track prediction progress and retrieve results.\n\n**Status States:**\n- `starting` - Prediction is being initialized\n- `in_queue` - Prediction is waiting to be processed  \n- `processing` - Model is actively generating your result\n- `completed` - Generation finished successfully, output available\n- `failed` - Generation failed, check error details\n\n**Output Availability:**\n- **CDN URLs** (default): Available for 72 hours after completion\n- **Base64 outputs** (when `return_base64: true`): Available for 60 minutes after completion\n\n\n### Parameters\n\n- `id: string`\n\n### Returns\n\n- `{ id: string; error: { message: string; name: string; }; status: 'starting' | 'in_queue' | 'processing' | 'completed' | 'failed' | 'canceled' | 'time_out'; output?: string[] | string[]; }`\n\n  - `id: string`\n  - `error: { message: string; name: string; }`\n  - `status: 'starting' | 'in_queue' | 'processing' | 'completed' | 'failed' | 'canceled' | 'time_out'`\n  - `output?: string[] | string[]`\n\n### Example\n\n```typescript\nimport Fashn from 'fashn';\n\nconst client = new Fashn();\n\nconst response = await client.predictions.status('123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'predictions status',
+      typescript: {
+        method: 'client.predictions.status',
         example:
-          "fashn predictions status \\\n  --api-key 'My API Key' \\\n  --id 123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1",
-      },
-      go: {
-        method: 'client.Predictions.Status',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/stainless-sdks/fashn-sdk-go"\n\t"github.com/stainless-sdks/fashn-sdk-go/option"\n)\n\nfunc main() {\n\tclient := fashn.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Predictions.Status(context.TODO(), "123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
-      },
-      http: {
-        example: 'curl https://api.fashn.ai/v1/status/$ID \\\n    -H "Authorization: Bearer $FASHN_API_KEY"',
+          "import Fashn from 'fashn';\n\nconst client = new Fashn({\n  apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.predictions.status('123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1');\n\nconsole.log(response.id);",
       },
       python: {
         method: 'predictions.status',
         example:
           'import os\nfrom fashn import Fashn\n\nclient = Fashn(\n    api_key=os.environ.get("FASHN_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.predictions.status(\n    "123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1",\n)\nprint(response.id)',
       },
-      typescript: {
-        method: 'client.predictions.status',
+      go: {
+        method: 'client.Predictions.Status',
         example:
-          "import Fashn from 'fashn';\n\nconst client = new Fashn({\n  apiKey: process.env['FASHN_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.predictions.status('123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1');\n\nconsole.log(response.id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/stainless-sdks/fashn-sdk-go"\n\t"github.com/stainless-sdks/fashn-sdk-go/option"\n)\n\nfunc main() {\n\tclient := fashn.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Predictions.Status(context.TODO(), "123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
+      },
+      cli: {
+        method: 'predictions status',
+        example:
+          "fashn predictions status \\\n  --api-key 'My API Key' \\\n  --id 123a87r9-4129-4bb3-be18-9c9fb5bd7fc1-u1",
+      },
+      http: {
+        example: 'curl https://api.fashn.ai/v1/status/$ID \\\n    -H "Authorization: Bearer $FASHN_API_KEY"',
       },
     },
   },
