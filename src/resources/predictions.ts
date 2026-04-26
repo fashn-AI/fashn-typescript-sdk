@@ -38,7 +38,7 @@ export class Predictions extends APIResource {
    * ```
    */
   run(params: PredictionRunParams, options?: RequestOptions): APIPromise<PredictionRunResponse> {
-    const { webhook_url, ...body } = params;
+    const { webhook_url, ...body } = params
     return this._client.post('/v1/run', { query: { webhook_url }, body, ...options });
   }
 
@@ -180,30 +180,11 @@ export namespace PredictionStatusResponse {
      * - _Solution_: Retry request. Contact support@fashn.ai with prediction ID if
      *   persists
      */
-    name:
-      | 'ImageLoadError'
-      | 'ContentModerationError'
-      | 'PoseError'
-      | 'InputValidationError'
-      | 'PipelineError'
-      | 'ThirdPartyError'
-      | '3rdPartyProviderError'
-      | 'InternalServerError';
+    name: 'ImageLoadError' | 'ContentModerationError' | 'PoseError' | 'InputValidationError' | 'PipelineError' | 'ThirdPartyError' | '3rdPartyProviderError' | 'InternalServerError';
   }
 }
 
-export type PredictionRunParams =
-  | PredictionRunParams.TryOnMaxRequest
-  | PredictionRunParams.TryOnRequest
-  | PredictionRunParams.ProductToModelRequest
-  | PredictionRunParams.FaceToModelRequest
-  | PredictionRunParams.ModelCreateRequest
-  | PredictionRunParams.ModelSwapRequest
-  | PredictionRunParams.ReframeRequest
-  | PredictionRunParams.BackgroundChangeRequest
-  | PredictionRunParams.BackgroundRemoveRequest
-  | PredictionRunParams.ImageToVideoRequest
-  | PredictionRunParams.EditRequest;
+export type PredictionRunParams = PredictionRunParams.TryOnMaxRequest | PredictionRunParams.TryOnRequest | PredictionRunParams.ProductToModelRequest | PredictionRunParams.FaceToModelRequest | PredictionRunParams.ModelCreateRequest | PredictionRunParams.ModelSwapRequest | PredictionRunParams.ReframeRequest | PredictionRunParams.BackgroundChangeRequest | PredictionRunParams.BackgroundRemoveRequest | PredictionRunParams.ImageToVideoRequest | PredictionRunParams.EditRequest
 
 export declare namespace PredictionRunParams {
   export interface TryOnMaxRequest {
@@ -1268,6 +1249,6 @@ export declare namespace Predictions {
   export {
     type PredictionRunResponse as PredictionRunResponse,
     type PredictionStatusResponse as PredictionStatusResponse,
-    type PredictionRunParams as PredictionRunParams,
+    type PredictionRunParams as PredictionRunParams
   };
 }
