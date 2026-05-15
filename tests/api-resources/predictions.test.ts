@@ -12,10 +12,10 @@ describe('resource predictions', () => {
   test.skip('run: only required params', async () => {
     const responsePromise = client.predictions.run({
       inputs: {
-        garment_image: 'https://example.com/garment.jpg',
         model_image: 'https://example.com/model.jpg',
+        product_image: 'https://example.com/garment.jpg',
       },
-      model_name: 'tryon-v1.6',
+      model_name: 'tryon-max',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -30,19 +30,18 @@ describe('resource predictions', () => {
   test.skip('run: required and optional params', async () => {
     const response = await client.predictions.run({
       inputs: {
-        garment_image: 'https://example.com/garment.jpg',
         model_image: 'https://example.com/model.jpg',
-        category: 'auto',
-        garment_photo_type: 'auto',
-        mode: 'performance',
-        moderation_level: 'conservative',
-        num_samples: 1,
+        product_image: 'https://example.com/garment.jpg',
+        aspect_ratio: '21:9',
+        generation_mode: 'balanced',
+        num_images: 1,
         output_format: 'png',
+        prompt: 'prompt',
+        resolution: '1k',
         return_base64: true,
         seed: 0,
-        segmentation_free: true,
       },
-      model_name: 'tryon-v1.6',
+      model_name: 'tryon-max',
       webhook_url: 'https://example.com/webhook',
     });
   });
