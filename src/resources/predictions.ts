@@ -28,6 +28,7 @@ export class Predictions extends APIResource {
    * - Image reframing (reframe)
    * - Image to video (image-to-video)
    * - Image editing (edit)
+   * - Product packshot (packshot)
    *
    * All requests use the versioned format with model_name and inputs structure.
    *
@@ -332,7 +333,8 @@ export type PredictionRunParams =
   | PredictionRunParams.BackgroundChangeRequest
   | PredictionRunParams.BackgroundRemoveRequest
   | PredictionRunParams.ImageToVideoRequest
-  | PredictionRunParams.EditRequest;
+  | PredictionRunParams.EditRequest
+  | PredictionRunParams.PackshotRequest;
 
 export declare namespace PredictionRunParams {
   export interface TryOnMaxRequest {
@@ -384,9 +386,7 @@ export declare namespace PredictionRunParams {
       generation_mode?: 'balanced' | 'quality';
 
       /**
-       * Number of images to generate in a single run. Image generation has a random
-       * element in it, so trying multiple images at once increases the chances of
-       * getting a good result.
+       * Number of images to generate per request (1-4).
        */
       num_images?: number;
 
@@ -512,9 +512,7 @@ export declare namespace PredictionRunParams {
       moderation_level?: 'conservative' | 'permissive' | 'none';
 
       /**
-       * Number of images to generate in a single run. Image generation has a random
-       * element in it, so trying multiple images at once increases the chances of
-       * getting a good result.
+       * Number of images to generate per request (1-4).
        */
       num_samples?: number;
 
@@ -591,7 +589,7 @@ export declare namespace PredictionRunParams {
        *
        * **Default:** product_image's aspect ratio (standard mode only)
        */
-      aspect_ratio?: '1:1' | '2:3' | '3:4' | '4:5' | '5:4' | '4:3' | '3:2' | '16:9' | '9:16';
+      aspect_ratio?: '21:9' | '1:1' | '4:3' | '3:2' | '2:3' | '5:4' | '4:5' | '3:4' | '16:9' | '9:16';
 
       /**
        * Sets the generation quality level. 'quality' produces the most detailed and
@@ -692,12 +690,12 @@ export declare namespace PredictionRunParams {
       face_image: string;
 
       /**
-       * Desired aspect ratio for the output image. Only vertical ratios are supported.
-       * Images will always be extended downward to fit the aspect ratio.
+       * Desired aspect ratio for the output image. Vertical ratios (e.g. `2:3`, `3:4`,
+       * `9:16`) produce the most natural upper-body portraits.
        *
        * **Default:** `2:3`
        */
-      aspect_ratio?: '1:1' | '4:5' | '3:4' | '2:3' | '9:16';
+      aspect_ratio?: '21:9' | '1:1' | '4:3' | '3:2' | '2:3' | '5:4' | '4:5' | '3:4' | '16:9' | '9:16';
 
       /**
        * Sets the generation quality level. 'quality' produces the most detailed and
@@ -795,6 +793,7 @@ export declare namespace PredictionRunParams {
        *
        * | Aspect Ratio | Resolution  | Use Case                      |
        * | ------------ | ----------- | ----------------------------- |
+       * | 21:9         | 1568 × 672  | Ultra-wide cinematic          |
        * | 1:1          | 1024 × 1024 | Square format, social media   |
        * | 2:3          | 832 × 1248  | Portrait, fashion photography |
        * | 3:4          | 880 × 1176  | Standard portrait             |
@@ -805,7 +804,7 @@ export declare namespace PredictionRunParams {
        * | 16:9         | 1360 × 768  | Widescreen, banners           |
        * | 9:16         | 760 × 1360  | Vertical video format         |
        */
-      aspect_ratio?: '1:1' | '2:3' | '3:4' | '4:5' | '5:4' | '4:3' | '3:2' | '16:9' | '9:16';
+      aspect_ratio?: '21:9' | '1:1' | '4:3' | '3:2' | '2:3' | '5:4' | '4:5' | '3:4' | '16:9' | '9:16';
 
       /**
        * Optional face reference image to guide facial features in the generated model.
@@ -1062,9 +1061,7 @@ export declare namespace PredictionRunParams {
       generation_mode?: 'fast' | 'balanced' | 'quality';
 
       /**
-       * Number of images to generate in a single run. Image generation has a random
-       * element in it, so trying multiple images at once increases the chances of
-       * getting a good result.
+       * Number of images to generate per request (1-4).
        */
       num_images?: number;
 
@@ -1353,9 +1350,7 @@ export declare namespace PredictionRunParams {
       mask?: string;
 
       /**
-       * Number of images to generate in a single run. Image generation has a random
-       * element in it, so trying multiple images at once increases the chances of
-       * getting a good result.
+       * Number of images to generate per request (1-4).
        */
       num_images?: number;
 
@@ -1368,6 +1363,104 @@ export declare namespace PredictionRunParams {
        *   suitable for real-time applications.
        */
       output_format?: 'png' | 'jpeg';
+
+      /**
+       * Resolution setting for the output image.
+       */
+      resolution?: '1k' | '2k' | '4k';
+
+      /**
+       * When set to `true`, the API will return the generated image as a base64-encoded
+       * string instead of a CDN URL. The base64 string will be prefixed according to the
+       * `output_format` (e.g., `data:image/png;base64,...` or
+       * `data:image/jpeg;base64,...`). This option offers enhanced privacy as
+       * user-generated outputs are not stored on our servers when `return_base64` is
+       * enabled.
+       */
+      return_base64?: boolean;
+
+      /**
+       * Sets random operations to a fixed state. Use the same seed to reproduce results
+       * with the same inputs, or different seed to force different results.
+       */
+      seed?: number;
+    }
+  }
+
+  export interface PackshotRequest {
+    /**
+     * Body param
+     */
+    inputs: PackshotRequest.Inputs;
+
+    /**
+     * Body param: Turns a product photo into a clean commercial packshot. Optionally
+     * accepts a style reference image to guide staging, background, and lighting.
+     */
+    model_name: 'packshot';
+
+    /**
+     * Query param: Optional webhook URL to receive completion notifications
+     */
+    webhook_url?: string;
+  }
+
+  export namespace PackshotRequest {
+    export interface Inputs {
+      /**
+       * Source product image to convert into a commercial packshot. The AI generates a
+       * clean studio-style presentation while preserving product identity and detail.
+       *
+       * Base64 images must include the proper prefix (e.g.,
+       * `data:image/jpg;base64,<YOUR_BASE64>`)
+       */
+      product_image: string;
+
+      /**
+       * Optional aspect ratio for the output image.
+       */
+      aspect_ratio?: '21:9' | '1:1' | '4:3' | '3:2' | '2:3' | '5:4' | '4:5' | '3:4' | '16:9' | '9:16';
+
+      /**
+       * Sets the generation quality level. 'quality' produces the most detailed and
+       * realistic output but takes longer to process and costs more credits. 'fast'
+       * prioritizes speed and lower cost.
+       */
+      generation_mode?: 'fast' | 'balanced' | 'quality';
+
+      /**
+       * Optional URL or base64 of a style reference image guiding the packshot
+       * presentation (staging, background, lighting). The reference influences styling
+       * without overriding the product itself.
+       *
+       * Base64 images must include the proper prefix (e.g.,
+       * `data:image/jpg;base64,<YOUR_BASE64>`)
+       */
+      image_context?: string;
+
+      /**
+       * Number of images to generate per request (1-4).
+       */
+      num_images?: number;
+
+      /**
+       * Specifies the desired output image format.
+       *
+       * - `png`: Delivers the highest quality image, ideal for use cases such as content
+       *   creation where quality is paramount.
+       * - `jpeg`: Provides a faster response with a slightly compressed image, more
+       *   suitable for real-time applications.
+       */
+      output_format?: 'png' | 'jpeg';
+
+      /**
+       * Optional natural-language description of the desired packshot styling. If empty,
+       * the model picks a sensible commercial default for the detected product.
+       *
+       * **Examples:** "clean white background flat-lay", "soft studio lighting on a
+       * beige pedestal", "isolated on a marble surface"
+       */
+      prompt?: string;
 
       /**
        * Resolution setting for the output image.
