@@ -741,7 +741,7 @@ export declare namespace Fashn {
     type PredictionRunResponse as PredictionRunResponse,
     type PredictionStatusResponse as PredictionStatusResponse,
     type PredictionRunParams as PredictionRunParams,
-        type PredictionSubscribeParams as PredictionSubscribeParams,
-        type PredictionSubscribeResponse as PredictionSubscribeResponse,
-};
+    type PredictionSubscribeParams as PredictionSubscribeParams,
+    type PredictionSubscribeResponse as PredictionSubscribeResponse,
+  };
 }
