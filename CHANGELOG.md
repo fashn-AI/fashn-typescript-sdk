@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.15.0 (2026-05-25)
+
+Full Changelog: [v0.14.0...v0.15.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.14.0...v0.15.0)
+
+### Features
+
+* **api:** api update ([0eb0938](https://github.com/fashn-AI/fashn-typescript-sdk/commit/0eb09384da1884299e0dd997fcf3da194859303c))
+* support setting headers via env ([245654a](https://github.com/fashn-AI/fashn-typescript-sdk/commit/245654ace69eb8ff0291e5ecca3f922cbddee56c))
+
+
+### Bug Fixes
+
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([4cfaad5](https://github.com/fashn-AI/fashn-typescript-sdk/commit/4cfaad5d623ea77d0e288326a35470693c261bbd))
+
+
+### Chores
+
+* avoid formatting file that gets changed during releases ([9853417](https://github.com/fashn-AI/fashn-typescript-sdk/commit/98534174c82ba2d51c918058724d99b4df7f6811))
+* **format:** run eslint and prettier separately ([ff28e11](https://github.com/fashn-AI/fashn-typescript-sdk/commit/ff28e11d31002675b648edea684f59d74acb5772))
+* **internal:** codegen related update ([3742459](https://github.com/fashn-AI/fashn-typescript-sdk/commit/374245975cd5c14471277374df1963e932402f28))
+* **internal:** codegen related update ([18e3630](https://github.com/fashn-AI/fashn-typescript-sdk/commit/18e36307f63e0d69bd95cec7ac325d822dcce1a3))
+* redact api-key headers in debug logs ([ffb7348](https://github.com/fashn-AI/fashn-typescript-sdk/commit/ffb734829e8940c33cb106368427595a3b4cd170))
+* **tests:** remove redundant File import ([2aec9f4](https://github.com/fashn-AI/fashn-typescript-sdk/commit/2aec9f49448788eacb175a1a3fc929ef70957d0a))
+
 ## 0.14.0 (2026-05-15)
 
 Full Changelog: [v0.13.0...v0.14.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.13.0...v0.14.0)
