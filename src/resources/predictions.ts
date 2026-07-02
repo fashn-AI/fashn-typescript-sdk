@@ -254,7 +254,7 @@ export declare namespace PredictionRunParams {
        * realistic output but takes longer to process and costs more credits. 'fast'
        * prioritizes speed and lower cost.
        */
-      generation_mode?: 'balanced' | 'quality';
+      generation_mode?: 'fast' | 'balanced' | 'quality';
 
       /**
        * Number of images to generate per request (1-4).
