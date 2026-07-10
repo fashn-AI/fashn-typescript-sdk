@@ -424,8 +424,8 @@ export declare namespace PredictionRunParams {
       return_base64?: boolean;
 
       /**
-       * Sets random operations to a fixed state. Use the same seed to reproduce results
-       * with the same inputs, or different seed to force different results.
+       * Controls generation randomness on a best-effort basis. Exact reproducibility is
+       * not guaranteed.
        */
       seed?: number;
     }
@@ -537,8 +537,8 @@ export declare namespace PredictionRunParams {
       return_base64?: boolean;
 
       /**
-       * Sets random operations to a fixed state. Use the same seed to reproduce results
-       * with the same inputs, or different seed to force different results.
+       * Controls generation randomness on a best-effort basis. Exact reproducibility is
+       * not guaranteed.
        */
       seed?: number;
 
@@ -649,9 +649,8 @@ export declare namespace PredictionRunParams {
       return_base64?: boolean;
 
       /**
-       * Seed for reproducible results. Use the same seed to reproduce results with the
-       * same inputs, or different seed to force different results. Must be between 0 and
-       * 2^32-1.
+       * Controls generation randomness on a best-effort basis. Must be between 0 and
+       * 2^32-1; exact reproducibility is not guaranteed.
        */
       seed?: number;
     }
@@ -748,8 +747,8 @@ export declare namespace PredictionRunParams {
       return_base64?: boolean;
 
       /**
-       * Sets random operations to a fixed state. Use the same seed to reproduce results
-       * with the same inputs, or different seed to force different results.
+       * Controls generation randomness on a best-effort basis. Exact reproducibility is
+       * not guaranteed.
        */
       seed?: number;
     }
@@ -878,8 +877,8 @@ export declare namespace PredictionRunParams {
       return_base64?: boolean;
 
       /**
-       * Sets random operations to a fixed state. Use the same seed to reproduce results
-       * with the same inputs, or different seed to force different results.
+       * Controls generation randomness on a best-effort basis. Exact reproducibility is
+       * not guaranteed.
        */
       seed?: number;
     }
@@ -982,8 +981,8 @@ export declare namespace PredictionRunParams {
       return_base64?: boolean;
 
       /**
-       * Sets random operations to a fixed state. Use the same seed to reproduce results
-       * with the same inputs, or different seed to force different results.
+       * Controls generation randomness on a best-effort basis. Exact reproducibility is
+       * not guaranteed.
        */
       seed?: number;
     }
@@ -1086,8 +1085,8 @@ export declare namespace PredictionRunParams {
       return_base64?: boolean;
 
       /**
-       * Sets random operations to a fixed state. Use the same seed to reproduce results
-       * with the same inputs, or different seed to force different results.
+       * Controls generation randomness on a best-effort basis. Exact reproducibility is
+       * not guaranteed.
        */
       seed?: number;
     }
@@ -1164,8 +1163,8 @@ export declare namespace PredictionRunParams {
       return_base64?: boolean;
 
       /**
-       * Sets random operations to a fixed state. Use the same seed to reproduce results
-       * with the same inputs, or different seed to force different results.
+       * Controls generation randomness on a best-effort basis. Exact reproducibility is
+       * not guaranteed.
        */
       seed?: number;
     }
@@ -1273,8 +1272,8 @@ export declare namespace PredictionRunParams {
       resolution?: '480p' | '720p' | '1080p';
 
       /**
-       * Sets random operations to a fixed state. Use the same seed to reproduce results
-       * with the same inputs, or different seed to force different results.
+       * Controls generation randomness on a best-effort basis. Exact reproducibility is
+       * not guaranteed.
        */
       seed?: number;
     }
@@ -1380,8 +1379,8 @@ export declare namespace PredictionRunParams {
       return_base64?: boolean;
 
       /**
-       * Sets random operations to a fixed state. Use the same seed to reproduce results
-       * with the same inputs, or different seed to force different results.
+       * Controls generation randomness on a best-effort basis. Exact reproducibility is
+       * not guaranteed.
        */
       seed?: number;
     }
@@ -1478,8 +1477,8 @@ export declare namespace PredictionRunParams {
       return_base64?: boolean;
 
       /**
-       * Sets random operations to a fixed state. Use the same seed to reproduce results
-       * with the same inputs, or different seed to force different results.
+       * Controls generation randomness on a best-effort basis. Exact reproducibility is
+       * not guaranteed.
        */
       seed?: number;
     }
