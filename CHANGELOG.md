@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.16.0 (2026-07-31)
+
+Full Changelog: [v0.15.0...v0.16.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.15.0...v0.16.0)
+
+### Features
+
+* **api:** api update ([f3b7bcc](https://github.com/fashn-AI/fashn-typescript-sdk/commit/f3b7bcc0c8be2b85a0d565a09e17e36ef869ab6f))
+* **api:** api update ([5522f73](https://github.com/fashn-AI/fashn-typescript-sdk/commit/5522f735c418571450183cda1a36dc500c3d900c))
+* **api:** api update ([6d5af51](https://github.com/fashn-AI/fashn-typescript-sdk/commit/6d5af5104da54457ed2cc2e295feaa82c754ca34))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([815b334](https://github.com/fashn-AI/fashn-typescript-sdk/commit/815b334bd7735c89523affdcbc7673fac909ee9a))
+
+
+### Bug Fixes
+
+* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([c83903b](https://github.com/fashn-AI/fashn-typescript-sdk/commit/c83903b0c601603c334d1ec17163ca50944865cf))
+* **client:** send content-type header for requests with an omitted optional body ([84c75e7](https://github.com/fashn-AI/fashn-typescript-sdk/commit/84c75e7861550c9c0aa4b1d865eeb2793f00007c))
+* **mcp:** use `pure-lockfile` when building mcp server ([6daaf27](https://github.com/fashn-AI/fashn-typescript-sdk/commit/6daaf278aec4b2949037c548a786e69f37fd8317))
+* **stlc:** stop hand-edited CI workflows from blocking seals and builds ([2417e98](https://github.com/fashn-AI/fashn-typescript-sdk/commit/2417e98a479574877501d1cdd67a066784d84c5e))
+
+
+### Chores
+
+* **internal:** codegen related update ([bab89a3](https://github.com/fashn-AI/fashn-typescript-sdk/commit/bab89a37056e8bcdeb5a31e603cb899ddf839a91))
+
 ## 0.15.0 (2026-05-25)
 
 Full Changelog: [v0.14.0...v0.15.0](https://github.com/fashn-AI/fashn-typescript-sdk/compare/v0.14.0...v0.15.0)

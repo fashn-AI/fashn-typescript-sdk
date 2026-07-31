@@ -33,7 +33,7 @@ describe('resource predictions', () => {
         model_image: 'https://example.com/model.jpg',
         product_image: 'https://example.com/garment.jpg',
         aspect_ratio: '21:9',
-        generation_mode: 'balanced',
+        generation_mode: 'fast',
         num_images: 1,
         output_format: 'png',
         prompt: 'prompt',
